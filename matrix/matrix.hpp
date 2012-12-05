@@ -3,7 +3,7 @@
   *
   *  File: matrix.hpp
   *  Created: Dec 03, 2012
-  *  Modified: Tue 04 Dec 2012 05:52:01 PM PST
+  *  Modified: Tue 04 Dec 2012 10:18:38 PM PST
   *
   *  Author: Abhinav Sarje <asarje@lbl.gov>
   */
@@ -29,6 +29,7 @@ namespace woo {
 			value_type *mat_;
 			unsigned int num_dims_;				// number of dimensions
 			std::vector<unsigned int> dims_;	// values of dimensions
+			unsigned int capacity_;
 
 		public:
 			// default constructor: matrix size not known
@@ -37,38 +38,52 @@ namespace woo {
 
 
 			// generic constructor
-			Matrix(unsigned int num_dims, const std::vector<unsigned int>& dims):
-					mat_(NULL), num_dims_(num_dims) {
-				if(dims.size() != num_dims) {
+			//Matrix(unsigned int num_dims, const std::vector<unsigned int>& dims):
+			Matrix(unsigned int num_dims):
+					mat_(NULL), num_dims_(num_dims), capacity_(0) {
+			} // Matrix()
+
+
+			void init(const std::vector<unsigned int>& dims) {
+				if(dims.size() != num_dims_) {
 					std::cerr << "error: number of dimensions does not match list of dimension values"
 								<< std::endl;
 					return;
 				} // if
 				dims_.clear();
 				unsigned int total_elems = 1;
-				for(unsigned int i = 0; i < num_dims; ++ i) {
+				for(unsigned int i = 0; i < num_dims_; ++ i) {
 					dims_.push_back(dims[i]);
 					total_elems *= dims[i];
 				} // for
+				unsigned int size = 256;
+				while(true) {
+					if(total_elems < size) {
+						total_elems = size;
+						break;
+					} // if
+					size *= 2;
+				} // while
+				capacity_ = total_elems;
 				mat_ = new (std::nothrow) value_type[total_elems];
 				if(mat_ == NULL) {
 					std::cerr << "error: failed to allocate memory for the matrix" << std::endl;
 					return;
 				} // if
 				memset(mat_, 0, total_elems * sizeof(value_type));
-			} // Matrix()
+			} // init()
 
 
-			// constructor for 2D
-			Matrix(unsigned int rows, unsigned int cols):
-					mat_(NULL), num_dims_(2) {
-				std::vector<unsigned int> dims;
-				dims.push_back(rows);
-				dims.push_back(cols);
-				Matrix(2, dims);
-			} // Matrix()
+			//Matrix(unsigned int rows, unsigned int cols):
+			//	num_dims_(2) {
+			//		std::vector<unsigned int> dims;
+			//		dims.push_back(rows);
+			//		dims.push_back(cols);
+			//		Matrix(2, dims);
+			//} //Matrix()
 
 
+			// destructor
 			~Matrix() {
 				if(mat_ != NULL) delete[] mat_;
 			} // ~Matrix()
@@ -77,7 +92,7 @@ namespace woo {
 			// a few accessors
 			unsigned int dims() const { return num_dims_; }
 			unsigned int dim_size(unsigned int i) const { return dims_[i]; }
-
+			unsigned int capacity() const { return capacity_; }
 
 	}; // class Matrix
 
@@ -109,23 +124,27 @@ namespace woo {
 
 			// constructor
 			Matrix2D(unsigned int rows, unsigned int cols):
-				Matrix<value_type>(rows, cols) { //, num_cols_(cols), num_rows_(rows) {
-				num_cols_ = cols;
+				Matrix<value_type>(2) {
 				num_rows_ = rows;
+				num_cols_ = cols;
+				std::vector<unsigned int> dims;
+				dims.push_back(num_rows_);
+				dims.push_back(num_cols_);
+				this->init(dims);
 			} // Matrix()
 
 
 			// iterator to column
 			col_iterator column(unsigned int i) {
-				if(num_cols_ <= 0) {
-					col_iterator start_col(0, num_rows_);
+				if(i <= 0) {
+					col_iterator start_col(0, num_rows_, num_cols_, this);
 					return start_col;
 				} // if
 				if(i >= num_cols_) {
-					col_iterator end_col(num_cols_ - 1, num_rows_);
+					col_iterator end_col(num_cols_ - 1, num_rows_, num_cols_, this);
 					return end_col;
 				} // if
-				col_iterator col(i, num_rows_);
+				col_iterator col(i, num_rows_, num_cols_, this);
 				return col;
 			} // column()
 
@@ -137,7 +156,7 @@ namespace woo {
 
 			// access (i, j)-th element
 			value_type& operator()(unsigned int i, unsigned int j) {
-				return Matrix<value_type>::mat_[num_cols_ * i + j];
+				return this->mat_[num_cols_ * i + j];
 			} // operator()()
 
 
@@ -171,9 +190,9 @@ namespace woo {
 	class DimensionIterator {
 		public:
 
-			DimensionIterator() { DimensionIterator(0, 0); }
-			DimensionIterator(unsigned int d, unsigned int size):
-				dim_num_(d), dim_size_(size) { }
+			//DimensionIterator() { DimensionIterator(0, 0, 0, NULL); }
+			DimensionIterator(unsigned int d, unsigned int size, unsigned int i, value_type* mat):
+				dim_num_(d), dim_size_(size), dim_index_(i), dim_pointer_(mat) { }
 			~DimensionIterator() { }
 
 			virtual void operator++() { }
@@ -181,9 +200,10 @@ namespace woo {
 
 		protected:
 
-			value_type* dim_pointer_;		// pointer to an index
 			unsigned int dim_num_;			// dimension number
 			unsigned int dim_size_;			// size of the dimension
+			unsigned int dim_index_;		// index of the current dimension vector
+			value_type* dim_pointer_;		// pointer to current dimension vector
 
 	}; // class DimensionIterator
 
@@ -200,8 +220,10 @@ namespace woo {
 				index_.idx_ = 0;
 			} // ColumnIterator()
 
-			ColumnIterator(unsigned int i, unsigned int size) {
-				DimensionIterator<value_type>(i, size);
+			ColumnIterator(unsigned int i, unsigned int num_rows, unsigned int num_cols,
+							Matrix2D<value_type>* mat): 
+				DimensionIterator<value_type>(1, num_rows, i, mat->mat_) {
+				parent_mat_ = mat;
 				index_.num_ = i;
 				index_.idx_ = 0;
 			} // ColumnIterator()
