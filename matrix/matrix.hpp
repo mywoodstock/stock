@@ -3,7 +3,7 @@
   *
   *  File: matrix.hpp
   *  Created: Dec 03, 2012
-  *  Modified: Tue 04 Dec 2012 10:18:38 PM PST
+  *  Modified: Wed 05 Dec 2012 11:33:45 AM PST
   *
   *  Author: Abhinav Sarje <asarje@lbl.gov>
   */
@@ -58,7 +58,7 @@ namespace woo {
 				} // for
 				unsigned int size = 256;
 				while(true) {
-					if(total_elems < size) {
+					if(total_elems <= size) {
 						total_elems = size;
 						break;
 					} // if
@@ -72,15 +72,6 @@ namespace woo {
 				} // if
 				memset(mat_, 0, total_elems * sizeof(value_type));
 			} // init()
-
-
-			//Matrix(unsigned int rows, unsigned int cols):
-			//	num_dims_(2) {
-			//		std::vector<unsigned int> dims;
-			//		dims.push_back(rows);
-			//		dims.push_back(cols);
-			//		Matrix(2, dims);
-			//} //Matrix()
 
 
 			// destructor
@@ -112,6 +103,10 @@ namespace woo {
 					IndexType(): num_(0), idx_(0) { }
 					IndexType(int a, int b): num_(a), idx_(b) { }
 					~IndexType() { }
+
+					bool operator==(IndexType other) {
+						return (other.num_ == num_ && other.idx_ == idx_);
+					} // operator==()
 
 					int num_;		// column/row number
 					int idx_;		// index within the column/row
@@ -148,11 +143,24 @@ namespace woo {
 				return col;
 			} // column()
 
+			// iterator to first column
+			col_iterator begin() {
+				col_iterator start_col(0, num_rows_, num_cols_, this);
+				return start_col;
+			} // begin()
+
+			// iterator to column after last (end_index)
+			col_iterator end() {
+				col_iterator end_col(num_cols_, num_rows_, num_cols_, this);
+				return end_col;
+			} // end()
+
 
 			// accessors
 
 			unsigned int num_cols() const { return num_cols_; }
 			unsigned int num_rows() const { return num_rows_; }
+			unsigned int size() const { return num_cols_ * num_rows_; }
 
 			// access (i, j)-th element
 			value_type& operator()(unsigned int i, unsigned int j) {
@@ -211,8 +219,11 @@ namespace woo {
 	/* column vector for Matrix2D */
 	template <typename value_type>
 	class ColumnIterator : public DimensionIterator <value_type> {
-		public:
+		private:
+			Matrix2D<value_type>* parent_mat_;					// is iterator of this object
+			typename Matrix2D<value_type>::index_type index_;	// index in matrix
 
+		public:
 			/* create an iterator pointing to column 0 */
 			ColumnIterator() {
 				DimensionIterator<value_type>(1, 0);
@@ -224,13 +235,19 @@ namespace woo {
 							Matrix2D<value_type>* mat): 
 				DimensionIterator<value_type>(1, num_rows, i, mat->mat_) {
 				parent_mat_ = mat;
-				index_.num_ = i;
-				index_.idx_ = 0;
+				if(i >= num_cols) {
+					index_ = Matrix2D<value_type>::end_index;
+				} else {
+					index_.num_ = i;
+					index_.idx_ = 0;
+				} // if-else
 			} // ColumnIterator()
 
 			/* increment to next column */
 			void operator++() {		// next column
-				if(index_.num_ == parent_mat_->num_rows_ - 1) {
+				if(index_ == Matrix2D<value_type>::end_index) {
+					// do nothing
+				} else if(index_.num_ == parent_mat_->num_rows_ - 1) {
 					index_ = Matrix2D<value_type>::end_index;
 					this->dim_pointer_ = NULL;
 				} else {
@@ -243,12 +260,16 @@ namespace woo {
 
 			/* decrement to previous column */
 			void operator--() {		// previous column
-				if(index_.num_ != 0) {
+				if(index_ == Matrix2D<value_type>::end_index) {
+					index_.num_ = parent_mat_->num_cols_ - 1;
+				} else if(index_.num_ == 0) {
+					index_ = Matrix2D<value_type>::begin_index;
+				} else if(index_.num_ != 0) {
 					-- index_.num_;
-					index_.idx_ = 0;
-					unsigned int index = index_.idx_ * parent_mat_->num_cols_ + index_.num_;
-					this->dim_pointer_ = &(parent_mat_->mat_[index]);
 				} // if-else
+				index_.idx_ = 0;
+				unsigned int index = index_.idx_ * parent_mat_->num_cols_ + index_.num_;
+				this->dim_pointer_ = &(parent_mat_->mat_[index]);
 			} // operator--()
 
 			/* assign a pointer to the iterator */
@@ -259,20 +280,31 @@ namespace woo {
 
 			/* return the i-th element of current column */
 			value_type& operator[](unsigned int i) {
-				if(i >= parent_mat_->num_rows_) return NULL;
-				index_.idx_ = i;
-				return parent_mat_->mat_[index_.idx_ * parent_mat_->num_cols_ + index_.num_];
+				if(i >= parent_mat_->num_rows_) {
+					return parent_mat_->mat_[(parent_mat_->num_rows_ - 1) * parent_mat_->num_cols_ +
+												parent_mat_->num_rows_ - 1];
+				} // if
+			//	index_.idx_ = i;
+				return parent_mat_->mat_[i * parent_mat_->num_cols_ + index_.num_];
 			} // operator[]()
 
+			/* comparison operators */
+
+			bool operator==(ColumnIterator other) {
+				return (other.index_ == index_ && other.parent_mat_ == parent_mat_);
+			} // operator==()
+
+			bool operator!=(ColumnIterator other) {
+				return !(other.index_ == index_ && other.parent_mat_ == parent_mat_);
+			} // operator!=()
+
 			/* return the value of current column's current index */
-			value_type value() {
+			value_type value() const {
 				unsigned int index = index_.idx_ * parent_mat_->num_cols_ + index_.num_;
 				return parent_mat_->mat_[index];
 			} // value()
 
-		private:
-			Matrix2D<value_type>* parent_mat_;					// is iterator of this object
-			typename Matrix2D<value_type>::index_type index_;	// index in matrix
+			unsigned int size() const { return parent_mat_->num_rows_; }
 
 	}; // class ColumnIterator
 
