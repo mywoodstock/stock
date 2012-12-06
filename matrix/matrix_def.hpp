@@ -3,7 +3,7 @@
   *
   *  File: matrix_def.hpp
   *  Created: Dec 03, 2012
-  *  Modified: Wed 05 Dec 2012 03:25:48 PM PST
+  *  Modified: Wed 05 Dec 2012 05:48:26 PM PST
   *
   *  Author: Abhinav Sarje <asarje@lbl.gov>
   */
@@ -28,6 +28,13 @@ namespace woo {
 			std::vector<unsigned int> dims_;	// values of dimensions
 			unsigned int capacity_;
 
+			inline unsigned int total_elements() {
+				unsigned int tot_elems = 1;
+				for(unsigned int i = 0; i < num_dims_; ++ i) tot_elems *= dims_[i];
+				return tot_elems;
+			} // total_elements()
+
+
 		public:
 			// default constructor: matrix size not known
 			Matrix(): mat_(NULL), num_dims_(0) {
@@ -40,41 +47,48 @@ namespace woo {
 			} // Matrix()
 
 
-			void init(const std::vector<unsigned int>& dims) {
-				if(dims.size() != num_dims_) {
-					std::cerr << "error: number of dimensions does not match list of dimension values"
-								<< std::endl;
-					return;
-				} // if
-				dims_.clear();
-				unsigned int total_elems = 1;
-				for(unsigned int i = 0; i < num_dims_; ++ i) {
-					dims_.push_back(dims[i]);
-					total_elems *= dims[i];
-				} // for
-				unsigned int size = 256;
-				while(true) {
-					if(total_elems <= size) {
-						total_elems = size;
-						break;
-					} // if
-					size *= 2;
-				} // while
-				capacity_ = total_elems;
-				mat_ = new (std::nothrow) value_type[total_elems];
-				if(mat_ == NULL) {
-					std::cerr << "error: failed to allocate memory for the matrix" << std::endl;
-					return;
-				} // if
-				memset(mat_, 0, total_elems * sizeof(value_type));
-			} // init()
-
-
 			// destructor
 			~Matrix() {
 				if(mat_ != NULL) delete[] mat_;
 			} // ~Matrix()
 
+
+			bool init(const std::vector<unsigned int>& dims) {
+				if(dims.size() != num_dims_) {
+					std::cerr << "error: number of dimensions does not match list of dimension values"
+								<< std::endl;
+					return false;
+				} // if
+				dims_.clear();
+				unsigned int tot_elems = 1;
+				for(unsigned int i = 0; i < num_dims_; ++ i) {
+					dims_.push_back(dims[i]);
+					tot_elems *= dims[i];
+				} // for
+				unsigned int size = 256;
+				while(true) {
+					if(tot_elems <= size) {
+						tot_elems = size;
+						break;
+					} // if
+					size *= 2;
+				} // while
+				return reserve(size);
+			} // init()
+
+
+			// reserve memory for given number of elements
+			bool reserve(unsigned int size) {
+				capacity_ = size;
+				if(mat_ != NULL) delete[] mat_;
+				mat_ = new (std::nothrow) value_type[size];
+				if(mat_ == NULL) {
+					std::cerr << "error: failed to reserve memory for the matrix" << std::endl;
+					return false;
+				} // if
+				memset(mat_, 0, size * sizeof(value_type));
+				return true;
+			} // reserve()
 
 			// a few accessors
 			unsigned int dims() const { return num_dims_; }
@@ -125,6 +139,8 @@ namespace woo {
 			} // Matrix()
 
 
+			// iterators
+
 			// iterator to column
 			col_iterator column(unsigned int i) {
 				if(i <= 0) {
@@ -159,8 +175,8 @@ namespace woo {
 					return start_row;
 				} // if
 				if(i >= num_rows_) {
-					row_iterator end_row(num_rows_ - 1, num_cols_, num_rows_, this);
-					return end_row;
+					row_iterator last_row(num_rows_ - 1, num_cols_, num_rows_, this);
+					return last_row;
 				} // if
 				row_iterator row(i, num_cols_, num_cols_, this);
 				return row;
@@ -191,9 +207,76 @@ namespace woo {
 			} // operator()()
 
 
+			// modifiers
+
 			// insert stuff
-			bool insert_row(unsigned int i, const std::vector<value_type>& row) { }
-			bool insert_col(unsigned int i, const std::vector<value_type>& col) { }
+
+			//bool insert_row(unsigned int i, const std::vector<value_type>& row) {
+			bool insert_row(unsigned int i, value_type* row, unsigned int size) {
+				if(size != num_cols_) {
+					std::cerr << "error: mismatching row size during insertion" << std::endl;
+					return false;
+				} // if
+				if(i > num_rows_ + 1) {
+					std::cerr << "error: position is greater than resulting number of rows" << std::endl;
+					return false;
+				} // if
+				unsigned int tot_elems = this->total_elements();
+				value_type* temp = NULL;
+				if(tot_elems + num_cols_ > this->capacity_) this->capacity_ *= 2;
+				temp = new (std::nothrow) value_type[this->capacity_];
+				if(temp == NULL) {
+					std::cerr << "error: failed to resize memory during row insertion" << std::endl;
+					return false;
+				} // if
+				// copy all memory until row i
+				// copy new row
+				// copy remaining rows
+				memcpy(temp, this->mat_, i * num_cols_ * sizeof(value_type));
+				memcpy(temp + i * num_cols_, row, num_cols_ * sizeof(value_type));
+				memcpy(temp + (i + 1) * num_cols_, this->mat_ + i * num_cols_,
+						(num_rows_ - i) * num_cols_ * sizeof(value_type));
+				delete[] this->mat_;
+				this->mat_ = temp;
+				++ num_rows_;
+				++ this->dims_[0];
+			} // insert_row()
+
+
+			//bool insert_col(unsigned int i, const std::vector<value_type>& col) {
+			bool insert_col(unsigned int i, value_type* &col, unsigned int size) {
+				if(size != num_rows_) {
+					std::cerr << "error: mismatching row size during insertion" << std::endl;
+					return false;
+				} // if
+				if(i > num_cols_ + 1) {
+					std::cerr << "error: position is greater than resulting number of columns" << std::endl;
+					return false;
+				} // if
+				unsigned int tot_elems = this->total_elements();
+				value_type* temp = NULL;
+				if(tot_elems + num_rows_ > this->capacity_) this->capacity_ *= 2;
+				temp = new (std::nothrow) value_type[this->capacity_];
+				if(temp == NULL) {
+					std::cerr << "error: failed to resize memory during column insertion" << std::endl;
+					return false;
+				} // if
+				// repeat for each row:
+				// copy memory until column i
+				// copy column i value
+				// copy remaining cols
+				for(unsigned int row = 0; row < num_rows_; ++ row) {
+					memcpy(temp + row * (num_cols_ + 1), this->mat_ + row * num_cols_,
+							i * sizeof(value_type));
+					memcpy(temp + row * (num_cols_ + 1) + i, col + row, sizeof(value_type));
+					memcpy(temp + row * (num_cols_ + 1) + i + 1, this->mat_ + row * num_cols_ + i,
+							(num_cols_ - i) * sizeof(value_type));
+				} // for
+				delete[] this->mat_;
+				this->mat_ = temp;
+				++ num_cols_;
+				++ this->dims_[1];
+			} // insert_col()
 
 		private:
 			unsigned int num_cols_;		// number of columns = row size

@@ -3,7 +3,7 @@
   *
   *  File: matrix.hpp
   *  Created: Dec 03, 2012
-  *  Modified: Wed 05 Dec 2012 03:24:38 PM PST
+  *  Modified: Wed 05 Dec 2012 05:35:27 PM PST
   *
   *  Author: Abhinav Sarje <asarje@lbl.gov>
   */
@@ -72,7 +72,7 @@ namespace woo {
 			void operator++() {		// next column
 				if(index_ == Matrix2D<value_type>::end_index) {
 					// do nothing
-				} else if(index_.num_ == parent_mat_->num_rows_ - 1) {
+				} else if(index_.num_ == parent_mat_->num_cols_ - 1) {
 					index_ = Matrix2D<value_type>::end_index;
 					this->dim_pointer_ = NULL;
 				} else {
@@ -165,7 +165,7 @@ namespace woo {
 			void operator++() {
 				if(index_ == Matrix2D<value_type>::end_index) {
 					// do nothing
-				} else if(index_.num_ == parent_mat_->num_cols_ - 1) {
+				} else if(index_.num_ == parent_mat_->num_rows_ - 1) {
 					index_ = Matrix2D<value_type>::end_index;
 					this->dim_pointer_ = NULL;
 				} else {
