@@ -3,7 +3,7 @@
   *
   *  File: matrix_def.hpp
   *  Created: Dec 03, 2012
-  *  Modified: Wed 05 Dec 2012 05:48:26 PM PST
+  *  Modified: Fri 25 Jan 2013 11:27:28 AM PST
   *
   *  Author: Abhinav Sarje <asarje@lbl.gov>
   */
@@ -36,23 +36,31 @@ namespace woo {
 
 
 		public:
+			// ////
 			// default constructor: matrix size not known
+			// ////
 			Matrix(): mat_(NULL), num_dims_(0) {
 			} // Matrix()
 
 
+			// ////
 			// generic constructor
+			// ////
 			Matrix(unsigned int num_dims):
 					mat_(NULL), num_dims_(num_dims), capacity_(0) {
 			} // Matrix()
 
 
+			// ////
 			// destructor
+			// ////
 			~Matrix() {
 				if(mat_ != NULL) delete[] mat_;
 			} // ~Matrix()
 
 
+			// ////
+			// ////
 			bool init(const std::vector<unsigned int>& dims) {
 				if(dims.size() != num_dims_) {
 					std::cerr << "error: number of dimensions does not match list of dimension values"
@@ -77,7 +85,9 @@ namespace woo {
 			} // init()
 
 
+			// ////
 			// reserve memory for given number of elements
+			// ////
 			bool reserve(unsigned int size) {
 				capacity_ = size;
 				if(mat_ != NULL) delete[] mat_;
@@ -90,7 +100,9 @@ namespace woo {
 				return true;
 			} // reserve()
 
+			// ////
 			// a few accessors
+			// ////
 			unsigned int dims() const { return num_dims_; }
 			unsigned int dim_size(unsigned int i) const { return dims_[i]; }
 			unsigned int capacity() const { return capacity_; }
@@ -127,7 +139,9 @@ namespace woo {
 			static const index_type begin_index;
 
 
+			// ////
 			// constructor
+			// ////
 			Matrix2D(unsigned int rows, unsigned int cols):
 				Matrix<value_type>(2) {
 				num_rows_ = rows;
@@ -139,9 +153,13 @@ namespace woo {
 			} // Matrix()
 
 
+			// ////
 			// iterators
+			// ////
 
+			// ////
 			// iterator to column
+			// ////
 			col_iterator column(unsigned int i) {
 				if(i <= 0) {
 					col_iterator start_col(0, num_rows_, num_cols_, this);
@@ -155,20 +173,26 @@ namespace woo {
 				return col;
 			} // column()
 
+			// ////
 			// iterator to first column
+			// ////
 			col_iterator begin_col() {
 				col_iterator start_col(0, num_rows_, num_cols_, this);
 				return start_col;
 			} // begin()
 
+			// ////
 			// iterator to column after last (end_index)
+			// ////
 			col_iterator end_col() {
 				col_iterator last_col(num_cols_, num_rows_, num_cols_, this);
 				return last_col;
 			} // end()
 
 
+			// ////
 			// iterator to row
+			// ////
 			row_iterator row(unsigned int i) {
 				if(i <= 0) {
 					row_iterator start_row(0, num_cols_, num_rows_, this);
@@ -182,35 +206,50 @@ namespace woo {
 				return row;
 			} // column()
 
+			// ////
 			// iterator to first row
+			// ////
 			row_iterator begin_row() {
 				row_iterator start_row(0, num_cols_, num_rows_, this);
 				return start_row;
 			} // begin()
 
+			// ////
 			// iterator to row after last (end_index)
+			// ////
 			row_iterator end_row() {
 				row_iterator last_row(num_rows_, num_cols_, num_rows_, this);
 				return last_row;
 			} // end()
 
 
+			// ////
 			// accessors
+			// ////
 
 			unsigned int num_cols() const { return num_cols_; }
 			unsigned int num_rows() const { return num_rows_; }
 			unsigned int size() const { return num_cols_ * num_rows_; }
 
+			// ////
 			// access (i, j)-th element
-			value_type& operator()(unsigned int i, unsigned int j) {
+			// ////
+			value_type& operator()(unsigned int i, unsigned int j) const {
 				return this->mat_[num_cols_ * i + j];
 			} // operator()()
 
 
+			// ////
 			// modifiers
+			// ////
 
+			// ////
 			// insert stuff
+			// ////
 
+			// ////
+			// insert a new row
+			// ////
 			//bool insert_row(unsigned int i, const std::vector<value_type>& row) {
 			bool insert_row(unsigned int i, value_type* row, unsigned int size) {
 				if(size != num_cols_) {
@@ -224,6 +263,7 @@ namespace woo {
 				unsigned int tot_elems = this->total_elements();
 				value_type* temp = NULL;
 				if(tot_elems + num_cols_ > this->capacity_) this->capacity_ *= 2;
+				// TODO: mem allocation can be easily avoided here when there is enough capacity
 				temp = new (std::nothrow) value_type[this->capacity_];
 				if(temp == NULL) {
 					std::cerr << "error: failed to resize memory during row insertion" << std::endl;
@@ -243,6 +283,9 @@ namespace woo {
 			} // insert_row()
 
 
+			// ////
+			// insert a new column
+			// ////
 			//bool insert_col(unsigned int i, const std::vector<value_type>& col) {
 			bool insert_col(unsigned int i, value_type* &col, unsigned int size) {
 				if(size != num_rows_) {
@@ -256,6 +299,7 @@ namespace woo {
 				unsigned int tot_elems = this->total_elements();
 				value_type* temp = NULL;
 				if(tot_elems + num_rows_ > this->capacity_) this->capacity_ *= 2;
+				// TODO: can mem allocation be avoided here when there is enough capacity?
 				temp = new (std::nothrow) value_type[this->capacity_];
 				if(temp == NULL) {
 					std::cerr << "error: failed to resize memory during column insertion" << std::endl;
@@ -284,7 +328,9 @@ namespace woo {
 
 	}; // class Matrix2D
 
+	// ////
 	// begin and end index_type constants
+	// ////
 	template<> const Matrix2D<float>::index_type Matrix2D<float>::begin_index(0, 0);
 	template<> const Matrix2D<float>::index_type Matrix2D<float>::end_index(-1, -1);
 	template<> const Matrix2D<double>::index_type Matrix2D<double>::begin_index(0, 0);
