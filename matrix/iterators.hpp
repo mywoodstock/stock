@@ -3,16 +3,17 @@
   *
   *  File: matrix.hpp
   *  Created: Dec 03, 2012
-  *  Modified: Wed 05 Dec 2012 05:35:27 PM PST
+  *  Modified: Fri 25 Jan 2013 11:30:52 AM PST
   *
   *  Author: Abhinav Sarje <asarje@lbl.gov>
   */
 
-#include <vector>
-#include <cstring>
-#include <iostream>
+//#include <vector>
+//#include <cstring>
+//#include <iostream>
 
-#include "matrix.hpp"
+//#include "matrix.hpp"
+#include "matrix_def.hpp"
 
 #ifndef _ITERATORS_HPP_
 #define _ITERATORS_HPP_
