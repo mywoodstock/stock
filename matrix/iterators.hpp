@@ -3,7 +3,7 @@
   *
   *  File: matrix.hpp
   *  Created: Dec 03, 2012
-  *  Modified: Fri 25 Jan 2013 11:30:52 AM PST
+  *  Modified: Mon 28 Jan 2013 11:31:00 AM PST
   *
   *  Author: Abhinav Sarje <asarje@lbl.gov>
   */
@@ -101,12 +101,13 @@ namespace woo {
 			/* assign a pointer to the iterator */
 			void operator=(value_type* pointer) {
 				this->dim_pointer_ = pointer;
-				// what about index_ ?
+				// what about index_ ??? ...
 			} // operator=()
 
 			/* return the i-th element of current column */
 			value_type& operator[](unsigned int i) {
 				if(i >= parent_mat_->num_rows_) {
+					// return the last element
 					return parent_mat_->mat_[(parent_mat_->num_rows_ - 1) * parent_mat_->num_cols_ +
 												parent_mat_->num_rows_ - 1];
 				} // if

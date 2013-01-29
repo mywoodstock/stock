@@ -3,7 +3,7 @@
   *
   *  File: matrix_def.hpp
   *  Created: Dec 03, 2012
-  *  Modified: Fri 25 Jan 2013 11:31:37 AM PST
+  *  Modified: Tue 29 Jan 2013 02:04:44 PM PST
   *
   *  Author: Abhinav Sarje <asarje@lbl.gov>
   */
@@ -100,12 +100,25 @@ namespace woo {
 				return true;
 			} // reserve()
 
+
+			// ////
+			// if data is given, populate the matrix with it
+			// ////
+			bool populate(value_type* data) {
+				// just need to memcpy everything
+				unsigned int tot_elems = 1;
+				for(unsigned int i = 0; i < num_dims_; ++ i) tot_elems *= dims_[i];
+				memcpy(mat_, data, tot_elems * sizeof(value_type));
+			} // populate()
+
 			// ////
 			// a few accessors
 			// ////
 			unsigned int dims() const { return num_dims_; }
 			unsigned int dim_size(unsigned int i) const { return dims_[i]; }
 			unsigned int capacity() const { return capacity_; }
+
+			value_type*& data() { return mat_; }
 
 	}; // class Matrix
 
@@ -140,17 +153,30 @@ namespace woo {
 
 
 			// ////
-			// constructor
+			// constructor: for empty matrix
 			// ////
 			Matrix2D(unsigned int rows, unsigned int cols):
-				Matrix<value_type>(2) {
+					Matrix<value_type>(2) {
 				num_rows_ = rows;
 				num_cols_ = cols;
 				std::vector<unsigned int> dims;
 				dims.push_back(num_rows_);
 				dims.push_back(num_cols_);
 				this->init(dims);
-			} // Matrix()
+			} // Matrix2D()
+
+			// ////
+			// constructor: for prefilled matrix
+			// ////
+			Matrix2D(unsigned int rows, unsigned int cols, value_type* data):
+					Matrix<value_type>(2),
+					num_rows_(rows), num_cols_(cols) {
+				std::vector<unsigned int> dims;
+				dims.push_back(rows);
+				dims.push_back(cols);
+				this->init(dims);
+				this->populate(data);
+			} // Matrix2D()
 
 
 			// ////
@@ -242,6 +268,15 @@ namespace woo {
 			// ////
 			// modifiers
 			// ////
+
+			bool fill(value_type val) {
+				for(unsigned int i = 0; i < num_rows_; ++ i) {
+					for(unsigned int j = 0; j < num_cols_; ++ j) {
+						this->mat_[num_cols_ * i + j] = val;
+					} // for
+				} // for
+				return true;
+			} // fill()
 
 			// ////
 			// insert stuff
@@ -343,6 +378,28 @@ namespace woo {
 	template<> const Matrix2D<long int>::index_type Matrix2D<long int>::end_index(-1, -1);
 	template<> const Matrix2D<unsigned long int>::index_type Matrix2D<unsigned long int>::begin_index(0, 0);
 	template<> const Matrix2D<unsigned long int>::index_type Matrix2D<unsigned long int>::end_index(-1, -1);
+
+	// ////
+	// other functions involving above defined matrices
+	// ////
+	// ////
+	// matrix addition: c = a + b
+	// ////
+	template <typename value_type>
+	bool matrix_add(const Matrix2D<value_type>& a, const Matrix2D<value_type>& b, Matrix2D<value_type>& c) {
+		unsigned int nrows = a.num_rows();
+		unsigned int ncols = a.num_cols();
+		if(nrows != b.num_rows() || nrows != c.num_rows() ||
+				ncols != b.num_cols() || ncols != c.num_cols()) {
+			std::cerr << "error: matrices should have equal dimensions" << std::endl;
+			return false;
+		} // if
+
+		value_type *a_mat, *b_mat, *c_mat;
+		a_mat = a.data(); b_mat = b.data(); c_mat = c.data();
+		for(unsigned int i = 0; i < nrows * ncols; ++ i) c_mat[i] = a_mat[i] + b_mat[i];
+		return true;
+	} // matrix_add()
 
 } // namespace woo
 
