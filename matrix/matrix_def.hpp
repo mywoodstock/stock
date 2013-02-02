@@ -3,7 +3,7 @@
   *
   *  File: matrix_def.hpp
   *  Created: Dec 03, 2012
-  *  Modified: Tue 29 Jan 2013 02:04:44 PM PST
+  *  Modified: Sat 02 Feb 2013 01:46:23 PM PST
   *
   *  Author: Abhinav Sarje <asarje@lbl.gov>
   */
@@ -109,6 +109,7 @@ namespace woo {
 				unsigned int tot_elems = 1;
 				for(unsigned int i = 0; i < num_dims_; ++ i) tot_elems *= dims_[i];
 				memcpy(mat_, data, tot_elems * sizeof(value_type));
+				return true;
 			} // populate()
 
 			// ////
@@ -177,6 +178,44 @@ namespace woo {
 				this->init(dims);
 				this->populate(data);
 			} // Matrix2D()
+
+			// ////
+			// copy constructor
+			// ////
+			Matrix2D(const Matrix2D& mat):
+					Matrix<value_type>(2) {
+				num_rows_ = mat.num_rows_;
+				num_cols_ = mat.num_cols_;
+				this->num_dims_ = mat.num_dims_;
+				std::vector<unsigned int> dims;
+				dims.push_back(num_rows_);
+				dims.push_back(num_cols_);
+				this->init(dims);
+				this->populate(mat.mat_);
+			} // Matrix2D()
+
+
+			// ////
+			// assignment operator
+			// ////
+			Matrix2D& operator=(const Matrix2D& mat) {
+				num_rows_ = mat.num_rows_;
+				num_cols_ = mat.num_cols_;
+				this->num_dims_ = mat.num_dims_;
+				std::vector<unsigned int> dims;
+				dims.push_back(num_rows_);
+				dims.push_back(num_cols_);
+				this->init(dims);
+				this->populate(mat.mat_);
+				return *this;
+			} // Matrix2D()
+
+
+			// ////
+			// destructor
+			// ////
+			~Matrix2D() {
+			} // ~Matrix2D()
 
 
 			// ////
@@ -270,6 +309,7 @@ namespace woo {
 			// ////
 
 			bool fill(value_type val) {
+				#pragma omp parallel for collapse(2) shared(val)
 				for(unsigned int i = 0; i < num_rows_; ++ i) {
 					for(unsigned int j = 0; j < num_cols_; ++ j) {
 						this->mat_[num_cols_ * i + j] = val;
@@ -378,6 +418,10 @@ namespace woo {
 	template<> const Matrix2D<long int>::index_type Matrix2D<long int>::end_index(-1, -1);
 	template<> const Matrix2D<unsigned long int>::index_type Matrix2D<unsigned long int>::begin_index(0, 0);
 	template<> const Matrix2D<unsigned long int>::index_type Matrix2D<unsigned long int>::end_index(-1, -1);
+	template<> const Matrix2D<std::complex<float> >::index_type Matrix2D<std::complex<float> >::begin_index(0, 0);
+	template<> const Matrix2D<std::complex<float> >::index_type Matrix2D<std::complex<float> >::end_index(-1, -1);
+	template<> const Matrix2D<std::complex<double> >::index_type Matrix2D<std::complex<double> >::begin_index(0, 0);
+	template<> const Matrix2D<std::complex<double> >::index_type Matrix2D<std::complex<double> >::end_index(-1, -1);
 
 	// ////
 	// other functions involving above defined matrices
@@ -386,7 +430,7 @@ namespace woo {
 	// matrix addition: c = a + b
 	// ////
 	template <typename value_type>
-	bool matrix_add(const Matrix2D<value_type>& a, const Matrix2D<value_type>& b, Matrix2D<value_type>& c) {
+	bool matrix_add(Matrix2D<value_type>& a, Matrix2D<value_type>& b, Matrix2D<value_type>& c) {
 		unsigned int nrows = a.num_rows();
 		unsigned int ncols = a.num_cols();
 		if(nrows != b.num_rows() || nrows != c.num_rows() ||
@@ -397,6 +441,7 @@ namespace woo {
 
 		value_type *a_mat, *b_mat, *c_mat;
 		a_mat = a.data(); b_mat = b.data(); c_mat = c.data();
+		#pragma omp parallel for
 		for(unsigned int i = 0; i < nrows * ncols; ++ i) c_mat[i] = a_mat[i] + b_mat[i];
 		return true;
 	} // matrix_add()
