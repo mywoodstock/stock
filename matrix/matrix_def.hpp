@@ -3,7 +3,7 @@
   *
   *  File: matrix_def.hpp
   *  Created: Dec 03, 2012
-  *  Modified: Sat 02 Feb 2013 01:46:23 PM PST
+  *  Modified: Sun 03 Feb 2013 08:36:00 PM PST
   *
   *  Author: Abhinav Sarje <asarje@lbl.gov>
   */
@@ -149,8 +149,8 @@ namespace woo {
 			}; // class IndexType
 
 			typedef IndexType index_type;
-			static const index_type end_index;
-			static const index_type begin_index;
+			static const index_type end_index; // = index_type(-1, -1);
+			static const index_type begin_index; // = index_type(0, 0);
 
 
 			// ////
@@ -158,6 +158,7 @@ namespace woo {
 			// ////
 			Matrix2D(unsigned int rows, unsigned int cols):
 					Matrix<value_type>(2) {
+			//		end_index(-1, -1), begin_index(0, 0) {
 				num_rows_ = rows;
 				num_cols_ = cols;
 				std::vector<unsigned int> dims;
@@ -171,6 +172,7 @@ namespace woo {
 			// ////
 			Matrix2D(unsigned int rows, unsigned int cols, value_type* data):
 					Matrix<value_type>(2),
+			//		end_index(-1, -1), begin_index(0, 0),
 					num_rows_(rows), num_cols_(cols) {
 				std::vector<unsigned int> dims;
 				dims.push_back(rows);
@@ -184,6 +186,7 @@ namespace woo {
 			// ////
 			Matrix2D(const Matrix2D& mat):
 					Matrix<value_type>(2) {
+			//		end_index(-1, -1), begin_index(0, 0) {
 				num_rows_ = mat.num_rows_;
 				num_cols_ = mat.num_cols_;
 				this->num_dims_ = mat.num_dims_;
@@ -403,10 +406,16 @@ namespace woo {
 
 	}; // class Matrix2D
 
+	
+	template <typename value_type>
+	const typename Matrix2D<value_type>::index_type Matrix2D<value_type>::begin_index(0, 0);
+	template <typename value_type>
+	const typename Matrix2D<value_type>::index_type Matrix2D<value_type>::end_index(-1, -1);
+
 	// ////
 	// begin and end index_type constants
 	// ////
-	template<> const Matrix2D<float>::index_type Matrix2D<float>::begin_index(0, 0);
+/*	template<> const Matrix2D<float>::index_type Matrix2D<float>::begin_index(0, 0);
 	template<> const Matrix2D<float>::index_type Matrix2D<float>::end_index(-1, -1);
 	template<> const Matrix2D<double>::index_type Matrix2D<double>::begin_index(0, 0);
 	template<> const Matrix2D<double>::index_type Matrix2D<double>::end_index(-1, -1);
@@ -422,7 +431,7 @@ namespace woo {
 	template<> const Matrix2D<std::complex<float> >::index_type Matrix2D<std::complex<float> >::end_index(-1, -1);
 	template<> const Matrix2D<std::complex<double> >::index_type Matrix2D<std::complex<double> >::begin_index(0, 0);
 	template<> const Matrix2D<std::complex<double> >::index_type Matrix2D<std::complex<double> >::end_index(-1, -1);
-
+*/
 	// ////
 	// other functions involving above defined matrices
 	// ////
@@ -430,7 +439,7 @@ namespace woo {
 	// matrix addition: c = a + b
 	// ////
 	template <typename value_type>
-	bool matrix_add(Matrix2D<value_type>& a, Matrix2D<value_type>& b, Matrix2D<value_type>& c) {
+	static bool matrix_add(Matrix2D<value_type>& a, Matrix2D<value_type>& b, Matrix2D<value_type>& c) {
 		unsigned int nrows = a.num_rows();
 		unsigned int ncols = a.num_cols();
 		if(nrows != b.num_rows() || nrows != c.num_rows() ||

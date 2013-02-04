@@ -3,7 +3,7 @@
   *
   *  File: matrix.hpp
   *  Created: Dec 03, 2012
-  *  Modified: Mon 28 Jan 2013 11:31:00 AM PST
+  *  Modified: Sun 03 Feb 2013 02:15:27 PM PST
   *
   *  Author: Abhinav Sarje <asarje@lbl.gov>
   */
