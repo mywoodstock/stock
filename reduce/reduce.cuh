@@ -3,7 +3,7 @@
   *
   *  File: reduce.cuh
   *  Created: Feb 12, 2013
-  *  Modified: Wed 13 Feb 2013 01:44:32 PM PST
+  *  Modified: Wed 13 Feb 2013 02:16:41 PM PST
   *
   *  Author: Abhinav Sarje <asarje@lbl.gov>
   */
@@ -108,6 +108,7 @@ namespace cuda {
 			//std::cout << grid << ". result: " << result << std::endl;
 		} // for
 
+		output = base_output;
 		cudaFree(output);
 
 		return result;
