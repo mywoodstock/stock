@@ -3,7 +3,7 @@
   *
   *  File: matrix_def.hpp
   *  Created: Dec 03, 2012
-  *  Modified: Sun 03 Feb 2013 08:36:00 PM PST
+  *  Modified: Sun 10 Mar 2013 12:21:13 PM PDT
   *
   *  Author: Abhinav Sarje <asarje@lbl.gov>
   */
@@ -306,11 +306,21 @@ namespace woo {
 				return this->mat_[num_cols_ * i + j];
 			} // operator()()
 
+			// ////
+			// access an element through sequential indexing
+			// ////
+			value_type& operator[](unsigned int index) const {
+				return this->mat_[index];
+			} // operator[]()
+
 
 			// ////
 			// modifiers
 			// ////
 
+			// ////
+			// fill matrix with a value
+			// ////
 			bool fill(value_type val) {
 				#pragma omp parallel for collapse(2) shared(val)
 				for(unsigned int i = 0; i < num_rows_; ++ i) {
@@ -320,6 +330,36 @@ namespace woo {
 				} // for
 				return true;
 			} // fill()
+
+			/*// specializer for uint
+			bool fill(unsigned int val) {
+				if(val == 0) {
+					memset(this->mat_, 0, num_rows_ * num_cols_ * sizeof(unsigned int));
+				} else {
+					#pragma omp parallel for collapse(2) shared(val)
+					for(unsigned int i = 0; i < num_rows_; ++ i) {
+						for(unsigned int j = 0; j < num_cols_; ++ j) {
+							this->mat_[num_cols_ * i + j] = val;
+						} // for
+					} // for
+				} // if-else
+				return true;
+			} // fill()
+
+			// specializer for int
+			bool fill(int val) {
+				if(val == 0) {
+					memset(this->mat_, 0, num_rows_ * num_cols_ * sizeof(int));
+				} else {
+					#pragma omp parallel for collapse(2) shared(val)
+					for(unsigned int i = 0; i < num_rows_; ++ i) {
+						for(unsigned int j = 0; j < num_cols_; ++ j) {
+							this->mat_[num_cols_ * i + j] = val;
+						} // for
+					} // for
+				} // if-else
+				return true;
+			} // fill()*/
 
 			// ////
 			// insert stuff
@@ -331,7 +371,8 @@ namespace woo {
 			//bool insert_row(unsigned int i, const std::vector<value_type>& row) {
 			bool insert_row(unsigned int i, value_type* row, unsigned int size) {
 				if(size != num_cols_) {
-					std::cerr << "error: mismatching row size during insertion" << std::endl;
+					std::cerr << "error: mismatching row size during insertion ("
+								<< size << " != " << num_cols_ << ")" << std::endl;
 					return false;
 				} // if
 				if(i > num_rows_ + 1) {
@@ -356,8 +397,11 @@ namespace woo {
 						(num_rows_ - i) * num_cols_ * sizeof(value_type));
 				delete[] this->mat_;
 				this->mat_ = temp;
+				temp = NULL;
 				++ num_rows_;
 				++ this->dims_[0];
+
+				return true;
 			} // insert_row()
 
 
@@ -367,7 +411,8 @@ namespace woo {
 			//bool insert_col(unsigned int i, const std::vector<value_type>& col) {
 			bool insert_col(unsigned int i, value_type* &col, unsigned int size) {
 				if(size != num_rows_) {
-					std::cerr << "error: mismatching row size during insertion" << std::endl;
+					std::cerr << "error: mismatching column size during insertion ("
+								<< size << " != " << num_rows_ << ")" << std::endl;
 					return false;
 				} // if
 				if(i > num_cols_ + 1) {
@@ -396,9 +441,76 @@ namespace woo {
 				} // for
 				delete[] this->mat_;
 				this->mat_ = temp;
+				temp = NULL;
 				++ num_cols_;
 				++ this->dims_[1];
+
+				return true;
 			} // insert_col()
+
+
+			// ////
+			// increase matrix size
+			// ////
+
+			// ////
+			// increase rows - inserts num rows at the end
+			// preserves initial data, initializes new rows to zero
+			// ////
+			bool incr_rows(unsigned int num) {
+				num_rows_ += num;
+				this->dims_[0] += num;
+				unsigned int tot_elems = this->total_elements();
+				if(tot_elems > this->capacity_) {
+					this->capacity_ *= 2;
+					value_type* temp = new (std::nothrow) value_type[this->capacity_];
+					if(temp == NULL) {
+						std::cerr << "error: failed to resize memory during row insertion" << std::endl;
+						return false;
+					} // if
+					// copy all memory until row the original end
+					memcpy(temp, this->mat_, (num_rows_ - num) * num_cols_ * sizeof(value_type));
+					memset(temp + (num_rows_ - num) * num_cols_, 0, num * num_cols_ * sizeof(value_type));
+					delete[] this->mat_;
+					this->mat_ = temp;
+					temp = NULL;
+				} else {
+					memset(this->mat_ + (num_rows_ - num) * num_cols_, 0,
+							num * num_cols_ * sizeof(value_type));
+				} // if-else
+				return true;
+			} // incr_rows()
+
+			// ////
+			// increase columns - inserts num elements at the end of each row (num cols)
+			// preserves initial data, initializes new cols to zero
+			// ////
+			bool incr_columns(unsigned int num) {
+				num_cols_ += num;
+				this->dims_[1] += num;
+				unsigned int tot_elems = this->total_elements();
+				if(tot_elems > this->capacity_) this->capacity_ *= 2;
+				// TODO: avoid mem allocation when possible
+				value_type* temp = new (std::nothrow) value_type[this->capacity_];
+				if(temp == NULL) {
+					std::cerr << "error: failed to resize memory during column insertion" << std::endl;
+					return false;
+				} // if
+				// repeat for each row:
+				// copy memory until original last column
+				// copy column i value
+				// copy remaining cols
+				for(unsigned int row = 0; row < num_rows_; ++ row) {
+					memcpy(temp + row * num_cols_, this->mat_ + row * (num_cols_ - num),
+							(num_cols_ - num) * sizeof(value_type));
+					memset(temp + row * num_cols_ + num_cols_ - num, 0, num * sizeof(value_type));
+				} // for
+				delete[] this->mat_;
+				this->mat_ = temp;
+				temp = NULL;
+				return true;
+			} // incr_columns()
+
 
 		private:
 			unsigned int num_cols_;		// number of columns = row size
@@ -454,6 +566,19 @@ namespace woo {
 		for(unsigned int i = 0; i < nrows * ncols; ++ i) c_mat[i] = a_mat[i] + b_mat[i];
 		return true;
 	} // matrix_add()
+
+
+	template <typename value_type>
+	static bool matrix_min_max(const Matrix2D<value_type>& mat, value_type& min_val, value_type& max_val) {
+		unsigned int nrows = mat.num_rows();
+		unsigned int ncols = mat.num_cols();
+		min_val = max_val = mat[0];
+		for(unsigned int i = 0; i < nrows * ncols; ++ i) {
+			if(min_val > mat[i]) min_val = mat[i];
+			if(max_val < mat[i]) max_val = mat[i];
+		} // for
+		return true;
+	} // matrix_min_max()
 
 } // namespace woo
 
