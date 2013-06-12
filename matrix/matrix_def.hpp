@@ -3,7 +3,7 @@
   *
   *  File: matrix_def.hpp
   *  Created: Dec 03, 2012
-  *  Modified: Sun 10 Mar 2013 12:21:13 PM PDT
+  *  Modified: Wed 12 Jun 2013 11:59:33 AM PDT
   *
   *  Author: Abhinav Sarje <asarje@lbl.gov>
   */
@@ -510,6 +510,23 @@ namespace woo {
 				temp = NULL;
 				return true;
 			} // incr_columns()
+
+
+			// ////
+			// resize the matrix to the new dimensions, and initializes to zero
+			// does NOT preserve any initial data
+			// ////
+			bool resize(unsigned int new_rows, unsigned int new_cols) {
+				num_rows_ = new_rows;
+				num_cols_ = new_cols;
+				this->num_dims_ = 2;
+				std::vector<unsigned int> dims;
+				dims.push_back(num_rows_);
+				dims.push_back(num_cols_);
+				this->init(dims);
+				memset(this->mat_, 0, new_rows * new_cols * sizeof(value_type));
+				return true;
+			} // resize()
 
 
 		private:
