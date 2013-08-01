@@ -1,120 +1,69 @@
 /***
-  *  $Id: image.hpp 40 2012-08-21 20:43:52Z asarje $
+  *  Project: WOO Image Library
   *
-  *  Project: HipGISAXS (High-Performance GISAXS)
-  *
-  *  File: image.hpp
+  *  File: image.cpp
   *  Created: Jun 18, 2012
-  *  Modified: Sun 10 Mar 2013 10:47:42 AM PDT
+  *  Modified: Thu 01 Aug 2013 03:17:18 PM PDT
   *
   *  Author: Abhinav Sarje <asarje@lbl.gov>
   */
 
-#ifndef _IMAGE_HPP_
-#define _IMAGE_HPP_
-
-#include <boost/gil/gil_all.hpp>
 #include <boost/math/special_functions/round.hpp>
 #include <boost/math/special_functions/fpclassify.hpp>
 #include <boost/gil/extension/io/tiff_io.hpp>
-#include <boost/gil/extension/numeric/affine.hpp>
 #include <boost/gil/extension/numeric/sampler.hpp>
 #include <boost/gil/extension/numeric/resample.hpp>
 
-#include "colormap.hpp"
-#include "globals.hpp"
+#include "image.hpp"
 #include "utilities.hpp"
 
 namespace wil {
-namespace vis {
-
-	class Image {
-		private:
-			unsigned int nx_;				/* x dimension - used in 3D image construction */
-			unsigned int ny_;				/* y dimension */
-			unsigned int nz_;				/* z dimension */
-			boost::gil::rgb8_pixel_t* image_buffer_;	/* this will hold the final rgb values */
-			ColorMap8 color_map_;			/* defines mapping to colors in the defined palette */
-			ColorMap new_color_map_;		/* new color mapping */
-
-			bool convert_to_rgb_pixels(unsigned int, unsigned int, real_t*);
-			bool convert_to_rgb_palette(unsigned int, unsigned int, real_t*);
-			bool slice(Image* &img, unsigned int xval = 0);	/* obtain a slice at given x in case of 3D data */
-
-			bool translate_pixels_to_positive(unsigned int nx, unsigned int ny, real_t* &data);
-			bool normalize_pixels(unsigned int nx, unsigned int ny, real_t* &data);
-			vector2_t minmax(unsigned int n, real_t* data);
-
-		public:
-			Image(unsigned int ny, unsigned int nz);					/* initialize a 2D image object */
-			Image(unsigned int ny, unsigned int nz, char* palette);
-			Image(unsigned int ny, unsigned int nz, std::string palette);
-			Image(unsigned int nx, unsigned int ny, unsigned int nz);	/* initialize a 3D image object */
-			Image(unsigned int nx, unsigned int ny, unsigned int nz, char* palette);
-			Image(unsigned int nx, unsigned int ny, unsigned int nz, std::string palette);
-			Image(unsigned int nx, unsigned int ny, unsigned int nz,
-					unsigned int r, unsigned int g, unsigned int b);
-			~Image();
-
-			bool construct_image(const real_t* data, int slice);
-			bool construct_image(real_t* data);
-			bool construct_image_direct(real_t* data);
-			bool construct_palette(real_t* data);
-			bool save(std::string filename);			/* save the current image buffer */
-			bool save(std::string filename, int xval);	/* save slice xval */
-			bool save(char* filename, int xval);
-			bool save(std::string filename, int xbegin, int xend);	/* save slices from xbegin to xend */
-			bool save(char* filename, int xbegin, int xend);
-	}; // class Image
-
-	bool scale_image(int, int, int, int, real_t*, real_t*&);
-	bool resample_pixels(int, int, real_t*, int, int, real_t*&, const boost::gil::matrix3x2<real_t>&);
-
-
-	/***
-	 * function definitions
-	 */
-
 
 	Image::Image(unsigned int ny, unsigned int nz):
-					nx_(1), ny_(ny), nz_(nz), color_map_() {
+					nx_(1), ny_(ny), nz_(nz), color_map_8_() {
 		image_buffer_ = NULL;
 	} // Image::Image()
 
 
 	Image::Image(unsigned int ny, unsigned int nz, char* palette):
-					nx_(1), ny_(ny), nz_(nz), color_map_(palette) {
+					nx_(1), ny_(ny), nz_(nz), color_map_8_(palette) {
 		image_buffer_ = NULL;
 	} // Image::Image()
 
 
 	Image::Image(unsigned int ny, unsigned int nz, std::string palette):
-					nx_(1), ny_(ny), nz_(nz), color_map_(palette) {
+					nx_(1), ny_(ny), nz_(nz), color_map_8_(palette) {
+		image_buffer_ = NULL;
+	} // Image::Image()
+
+
+	Image::Image(unsigned int ny, unsigned int nz, unsigned int r, unsigned int g, unsigned int b):
+					nx_(1), ny_(ny), nz_(nz), color_map_(r, g, b) {
 		image_buffer_ = NULL;
 	} // Image::Image()
 
 
 	Image::Image(unsigned int nx, unsigned int ny, unsigned int nz):
-					nx_(nx), ny_(ny), nz_(nz), color_map_(), new_color_map_() {
+					nx_(nx), ny_(ny), nz_(nz), color_map_8_(), color_map_() {
 		image_buffer_ = NULL;
 	} // Image::Image()
 
 
 	Image::Image(unsigned int nx, unsigned int ny, unsigned int nz, char* palette):
-					nx_(nx), ny_(ny), nz_(nz), color_map_(palette) {
+					nx_(nx), ny_(ny), nz_(nz), color_map_8_(palette) {
 		image_buffer_ = NULL;
 	} // Image::Image()
 
 
 	Image::Image(unsigned int nx, unsigned int ny, unsigned int nz, std::string palette):
-					nx_(nx), ny_(ny), nz_(nz), color_map_(palette) {
+					nx_(nx), ny_(ny), nz_(nz), color_map_8_(palette) {
 		image_buffer_ = NULL;
 	} // Image::Image()
 
 
 	Image::Image(unsigned int nx, unsigned int ny, unsigned int nz,
 			unsigned int r, unsigned int g, unsigned int b):
-					nx_(nx), ny_(ny), nz_(nz), new_color_map_(r, g, b) {
+					nx_(nx), ny_(ny), nz_(nz), color_map_(r, g, b) {
 		image_buffer_ = NULL;
 	} // Image::Image()
 
@@ -329,7 +278,7 @@ namespace vis {
 				std::cerr << "a pixel value not within range: " << image[i] << std::endl;
 				return false;
 			} // if
-			boost::array<unsigned char, 3> color_rgb = new_color_map_.color_map(image[i]);
+			boost::array<unsigned char, 3> color_rgb = color_map_.color_map(image[i]);
 			boost::gil::rgb8_pixel_t temp =
 							boost::gil::rgb8_pixel_t(color_rgb[0], color_rgb[1], color_rgb[2]);
 			image_buffer_[i] = temp;
@@ -353,7 +302,7 @@ namespace vis {
 				std::cerr << "a pixel value not within range: " << image[i] << std::endl;
 				return false;
 			} // if
-			boost::array<unsigned char, 3> color_rgb = new_color_map_.color_map(image[i]);
+			boost::array<unsigned char, 3> color_rgb = color_map_.color_map(image[i]);
 			boost::gil::rgb8_pixel_t temp =
 							boost::gil::rgb8_pixel_t(color_rgb[0], color_rgb[1], color_rgb[2]);
 			image_buffer_[i] = temp;
@@ -434,7 +383,8 @@ namespace vis {
 		boost::gil::point2 <int> new_p;
 		for(new_p.y = 0; new_p.y < (int) new_y; ++ new_p.y) {
 			for(new_p.x = 0; new_p.x < (int) new_x; ++ new_p.x) {
-				boost::gil::point2 <real_t> trans_p = boost::gil::transform(mat, new_p);
+				boost::gil::point2 <real_t> trans_p = boost::gil::transform(mat, new_p); // this
+															// is basically matrix multiplication! TODO ...
 				boost::gil::point2 <int> center(boost::math::iround(trans_p.x),
 												boost::math::iround(trans_p.y));
 				if(center.x >= 0 && center.y >= 0 && center.x < (int) old_x &&
@@ -445,7 +395,4 @@ namespace vis {
 		return true;
 	} // Image::resample_pixels()
 
-} // namespace vis
 } // namespace wil
-
-#endif /* _IMAGE_HPP_ */

@@ -1,11 +1,9 @@
 /***
-  *  $Id: globals.hpp 33 2012-08-06 16:22:01Z asarje $
-  *
-  *  Project: HipGISAXS (High-Performance GISAXS)
+  *  Project: WOO Image Library
   *
   *  File: globals.hpp
   *  Created: Jun 05, 2012
-  *  Modified: Sun 10 Mar 2013 10:47:22 AM PDT
+  *  Modified: Thu 01 Aug 2013 03:06:03 PM PDT
   *
   *  Author: Abhinav Sarje <asarje@lbl.gov>
   */
@@ -17,9 +15,10 @@
 #include <vector>
 #include <cmath>
 
+#include "typedefs.hpp"
+
 
 namespace wil {
-namespace vis {
 
 	typedef struct vector2_t {
 		boost::array <real_t, 2> vec_;
@@ -188,7 +187,6 @@ namespace vis {
 
 	} matrix3x3_t;
 
-} // namespace vis
 } // namespace hig
 
 #endif /* _GLOBALS_HPP_ */

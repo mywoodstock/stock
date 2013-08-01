@@ -1,14 +1,11 @@
 /***
-  *  Project: HipGISAXS (High-Performance GISAXS)
+  *  Project: WOO Image Library
   *
   *  File: colormap.hpp
   *  Created: Jul 02, 2012
-  *  Modified: Sun 10 Mar 2013 10:46:59 AM PDT
+  *  Modified: Thu 01 Aug 2013 03:05:43 PM PDT
   *
   *  Author: Abhinav Sarje <asarje@lbl.gov>
-  *
-  *  Developers: Slim Chourou, Abhinav Sarje, Elaine Chan, Alexander Hexemer, Xiaoye Li
-  *  Affiliation: Lawrence Berkeley National Laboratory, Berkeley, CA, USA
   */
 
 #ifndef _COLORMAP_HPP_
@@ -18,13 +15,18 @@
 #include <boost/array.hpp>
 
 #include "globals.hpp"
-#include "constants.hpp"
 
 namespace wil {		// woo image library
-namespace vis {
 
 	typedef boost::array <unsigned char, 3> color8_t;
-	
+	typedef boost::array <unsigned int, 3> palette_t;
+
+	const double PI_ = 3.14159265358979323846;
+
+
+	/**
+	 * 8-bit color map
+	 */	
 	class ColorMap8 {
 		private:
 			unsigned char* color_palette_;	// make this a vector ... ?
@@ -169,12 +171,13 @@ namespace vis {
 	}; // class ColorMap8
 
 
-	typedef boost::array <unsigned int, 3> palette_t;
-
+	/**
+	 * Full color map
+	 */
 	class ColorMap {
 		public:
 			ColorMap() {
-				palette_[0] = 38;
+				palette_[0] = 38;		// default palette
 				palette_[1] = 39;
 				palette_[2] = 40;
 				construct_channel_limits();
@@ -443,7 +446,6 @@ namespace vis {
 
 	}; // class ColorMap
 
-} // namespace vis
 } // namespace wil
 	
 #endif /* _COLORMAP_HPP_ */
