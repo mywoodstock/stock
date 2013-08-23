@@ -3,7 +3,7 @@
   *
   *  File: reduce.cuh
   *  Created: Feb 12, 2013
-  *  Modified: Thu 28 Feb 2013 09:00:58 PM PST
+  *  Modified: Fri 23 Aug 2013 12:01:06 PM PDT
   *
   *  Author: Abhinav Sarje <asarje@lbl.gov>
   */
@@ -297,9 +297,15 @@ namespace cuda {
 
 		//nvtxRangeId_t nvtx0 = nvtxRangeStart("one_setup");
 		data_t *output = NULL, *base_output = NULL;
+		data_t *input = NULL, *base_input = NULL;
 		unsigned int output_size = MAX_GRID_SIZE_;
+		unsigned int input_size = (n > MAX_GRID_SIZE_) ? n : MAX_GRID_SIZE_;
 		cudaMalloc((void**) &output, output_size * sizeof(data_t));
+		cudaMalloc((void**) &input, input_size * sizeof(data_t));
+		// the input data segment to process
+		cudaMemcpy(input, start, n * sizeof(data_t), cudaMemcpyDeviceToDevice);
 		base_output = output;
+		base_input = input;
 		//nvtxRangeEnd(nvtx0);
 
 		unsigned int d_shmem_size = block_size * sizeof(data_t);
@@ -307,8 +313,6 @@ namespace cuda {
 		data_t result = init;
 		unsigned int n_grid = min(n, n_grid_max);
 		unsigned int n_i = n;
-		// the input data segment to process
-		data_t *input = start;
 		output = base_output;
 
 		while(1) {
@@ -334,11 +338,13 @@ namespace cuda {
 		cudaMemcpy(&temp_result, &output[0], sizeof(data_t), cudaMemcpyDeviceToHost);
 		result = op(result, temp_result);
 		output = base_output;
+		input = base_input;
+		cudaFree(input);
 		cudaFree(output);
 		//nvtxRangeEnd(nvtx2);
 
 		return result;
-	} // reduce()
+	} // reduce_single()
 
 
 } // namespace cuda
