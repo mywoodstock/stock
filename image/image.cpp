@@ -3,7 +3,7 @@
   *
   *  File: image.cpp
   *  Created: Jun 18, 2012
-  *  Modified: Thu 01 Aug 2013 03:17:18 PM PDT
+  *  Modified: Sun 25 Aug 2013 09:24:10 AM PDT
   *
   *  Author: Abhinav Sarje <asarje@lbl.gov>
   */
@@ -120,7 +120,7 @@ namespace wil {
 	 * in case of 3d (not implemented), nx_ images will be created into image_buffer_
 	 */
 	// parallelize this for multicore
-	bool Image::construct_image(real_t* data) {						// and here ...
+	bool Image::construct_log_image(real_t* data) {						// and here ...
 		if(data == NULL) {
 			std::cerr << "empty data found while constructing image" << std::endl;
 			return false;
@@ -158,19 +158,19 @@ namespace wil {
 		} // if-else
 
 		return true;
-	} // Image::construct_image()
+	} // Image::construct_log_image()
 
 
-	bool Image::construct_image_direct(real_t* data) {						// and here ...
+	bool Image::construct_image(real_t* data) {						// and here ...
 		if(data == NULL) {
 			std::cerr << "empty data found while constructing image" << std::endl;
 			return false;
 		} // if
 		if(nx_ == 1) {	// a single slice
-			if(!translate_pixels_to_positive(ny_, nz_, data)) {
-				std::cerr << "error: something went awfully wrong in data translation" << std::endl;
-				return false;
-			} // if
+			//if(!translate_pixels_to_positive(ny_, nz_, data)) {
+			//	std::cerr << "error: something went awfully wrong in data translation" << std::endl;
+			//	return false;
+			//} // if
 
 			if(!normalize_pixels(ny_, nz_, data)) {
 				std::cerr << "error: something went awfully wrong in pixel normalization" << std::endl;
@@ -241,6 +241,9 @@ namespace wil {
 	} // Image::translate_pixels()
 
 
+	/**
+	 * Normalize data in pixels to be in [0, 1]
+	 */
 	bool Image::normalize_pixels(unsigned int nx, unsigned int ny, real_t* &pixels) {
 		vector2_t pixel_minmax = minmax(nx * ny, pixels);
 		if(pixel_minmax[0] == pixel_minmax[1]) {	// all pixels have the same value

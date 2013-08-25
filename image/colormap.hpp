@@ -3,7 +3,7 @@
   *
   *  File: colormap.hpp
   *  Created: Jul 02, 2012
-  *  Modified: Thu 01 Aug 2013 03:05:43 PM PDT
+  *  Modified: Sun 25 Aug 2013 09:24:07 AM PDT
   *
   *  Author: Abhinav Sarje <asarje@lbl.gov>
   */
