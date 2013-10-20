@@ -2,9 +2,10 @@
 Woo Libraries
 -------------
 
-Timers
-Dynamic Matrix
-CUDA Reduce Operation
-Image Library
-MPI communication
-Random number generator
+Woo libraries currently consist of the following:
+* Timers
+* Dynamic Matrix
+* CUDA Reduce Operation
+* Image Library
+* MPI communication
+* Random number generator
