@@ -6,3 +6,5 @@ Timers
 Dynamic Matrix
 CUDA Reduce Operation
 Image Library
+MPI communication
+Random number generator
