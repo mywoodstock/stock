@@ -3,7 +3,7 @@
   *
   *  File: matrix_def.hpp
   *  Created: Dec 03, 2012
-  *  Modified: Wed 12 Jun 2013 11:59:33 AM PDT
+  *  Modified: Sun 13 Oct 2013 12:52:37 PM PDT
   *
   *  Author: Abhinav Sarje <asarje@lbl.gov>
   */
@@ -56,6 +56,7 @@ namespace woo {
 			// ////
 			~Matrix() {
 				if(mat_ != NULL) delete[] mat_;
+				mat_ = NULL;
 			} // ~Matrix()
 
 
