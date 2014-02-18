@@ -3,7 +3,7 @@
   *
   *  File: wootimers.hpp
   *  Created: Nov 21, 2012
-  *  Modified: Wed 21 Nov 2012 08:42:43 PM PST
+  *  Modified: Thu 13 Feb 2014 10:41:09 AM PST
   *
   *  Author: Abhinav Sarje <asarje@lbl.gov>
   */
@@ -28,6 +28,8 @@ class WooTimer {		// an abstract class
 		virtual void start() = 0;
 		virtual void stop() = 0;
 		virtual double lap() = 0;			// lap in lowest resolution
+		virtual void pause() = 0;
+		virtual void resume() = 0;
 
 		virtual double elapsed_sec() = 0;	// in seconds		10^0
 		virtual double elapsed_msec() = 0;	// in miliseconds	10^3

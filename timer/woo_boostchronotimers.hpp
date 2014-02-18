@@ -3,7 +3,7 @@
   *
   *  File: woo_boostchronotimers.hpp
   *  Created: Nov 21, 2012
-  *  Modified: Thu 22 Nov 2012 12:39:11 PM PST
+  *  Modified: Thu 13 Feb 2014 11:23:02 AM PST
   *
   *  Author: Abhinav Sarje <asarje@lbl.gov>
   */
@@ -66,6 +66,31 @@ class BoostChronoTimer : public WooTimer {
 			elapsed_ += temp1.count();
 			return temp1.count();
 		} // lap()
+
+		void pause() {
+			if(!is_running_) {
+				std::cerr << "error: timer is not running" << std::endl;
+				return;
+			} // if
+			stoppoint_ = boost::chrono::steady_clock::now();
+			chstop_ = stoppoint_.time_since_epoch();
+			stop_ = chstop_.count();
+			is_running_ = false;
+		} // pause()
+
+		void resume() {
+			if(is_running_) {
+				std::cerr << "error: timer is already running" << std::endl;
+				return;
+			} // if
+			boost::chrono::steady_clock::time_point temppoint = boost::chrono::steady_clock::now();
+			boost::chrono::duration<long long, boost::nano> temp1 = temppoint - stoppoint_;
+			startpoint_ += temp1;
+			chstart_ = startpoint_.time_since_epoch();
+			start_ = chstart_.count();
+			is_running_ = true;
+		} // resume()
+
 
 		double elapsed_sec() { return elapsed_ / 1e9; }
 		double elapsed_msec() { return elapsed_ / 1e6; }

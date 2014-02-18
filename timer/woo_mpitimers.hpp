@@ -3,7 +3,7 @@
   *
   *  File: woo_mpitimers.hpp
   *  Created: Nov 21, 2012
-  *  Modified: Wed 21 Nov 2012 10:19:13 PM PST
+  *  Modified: Thu 13 Feb 2014 11:19:07 AM PST
   *
   *  Author: Abhinav Sarje <asarje@lbl.gov>
   */
@@ -54,6 +54,26 @@ class MPITimer : public WooTimer {
 			start_ = temp1;
 			return temp2;
 		} // lap()
+
+		void pause() {
+			if(!is_running_) {
+				std::cerr << "error: timer is not running" << std::endl;
+				return;
+			} // if
+			stop_ = MPI_Wtime();
+			is_running_ = false;
+		} // pause()
+
+		void resume() {
+			if(is_running_) {
+				std::cerr << "error: timer is already running" << std::endl;
+				return;
+			} // if
+			double temp1 = MPI_Wtime();
+			double temp2 = temp1 - stop_;
+			start_ += temp2;
+			is_running_ = true;
+		} // resume()
 
 		double elapsed_sec() { return elapsed_; }
 		double elapsed_msec() { return elapsed_ * 1e3; }
