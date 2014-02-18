@@ -3,7 +3,7 @@
   *
   *  File: wootimers.hpp
   *  Created: Nov 21, 2012
-  *  Modified: Thu 13 Feb 2014 10:41:09 AM PST
+  *  Modified: Tue 18 Feb 2014 10:48:03 AM PST
   *
   *  Author: Abhinav Sarje <asarje@lbl.gov>
   */
@@ -19,6 +19,7 @@ class WooTimer {		// an abstract class
 		double stop_;
 		double elapsed_;	// in lowest resolution of respective timers used
 		bool is_running_;
+		bool is_paused_;
 
 	public:
 		virtual ~WooTimer() { }
