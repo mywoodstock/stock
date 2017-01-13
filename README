@@ -1,8 +1,10 @@
--------------
-Woo Libraries
--------------
+---------------
+Stock Libraries
+---------------
 
-Woo libraries currently consist of the following:
+[Previously called the Woo Libraries]
+
+Stock libraries currently consist of the following:
 * Timers
 * Dynamic Matrix
 * CUDA Reduce Operation
