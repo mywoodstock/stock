@@ -1,14 +1,14 @@
-/***
-  *  $Id$
-  *
-  *  Project:
-  *
-  *  File: woo_cudatimers.hpp
-  *  Created: Nov 21, 2012
-  *  Modified: Thu 22 Nov 2012 10:54:52 AM PST
-  *
-  *  Author: Abhinav Sarje <asarje@lbl.gov>
-  */
+/**
+ *  Project: WOO Timer Library
+ *
+ *  File: woo_cudatimers.hpp
+ *  Created: Nov 21, 2012
+ *
+ *  Author: Abhinav Sarje <asarje@lbl.gov>
+ *  Copyright (c) 2012-2013 Abhinav Sarje
+ *  Distributed under the Boost Software License.
+ *  See accompanying LICENSE file.
+ */
 
 #include "wootimers.hpp"
 
@@ -73,6 +73,14 @@ class CUDATimer : public WooTimer {	// this does not use the start_ and stop_ of
 			// not functional!
 			return 0.0;
 		} // lap()
+
+    void pause() {
+      std::cerr << "error: pause() for CUDATimer not implemented" << std::endl;
+    } // pause() 
+
+    void resume() {
+      std::cerr << "error: resume() for CUDATimer not implemented" << std::endl;
+    } // resume() 
 
 		double elapsed_sec() {
 			if(is_running_) elapsed_compute();
