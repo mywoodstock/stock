@@ -1,12 +1,11 @@
-/***
-  *  Project: WOO Image Library
-  *
-  *  File: colormap.hpp
-  *  Created: Jul 02, 2012
-  *  Modified: Sun 25 Aug 2013 09:24:07 AM PDT
-  *
-  *  Author: Abhinav Sarje <asarje@lbl.gov>
-  */
+/**
+ *  Project: The Stock Libraries
+ *
+ *  File: colormap.hpp
+ *  Created: Jul 02, 2012
+ *
+ *  Author: Abhinav Sarje <abhinav.sarje@gmail.com>
+ */
 
 #ifndef _COLORMAP_HPP_
 #define _COLORMAP_HPP_
@@ -16,7 +15,7 @@
 
 #include "globals.hpp"
 
-namespace wil {		// woo image library
+namespace stock {
 
 	typedef boost::array <unsigned char, 3> color8_t;
 	typedef boost::array <unsigned int, 3> palette_t;
@@ -446,6 +445,6 @@ namespace wil {		// woo image library
 
 	}; // class ColorMap
 
-} // namespace wil
+} // namespace stock
 	
 #endif /* _COLORMAP_HPP_ */

@@ -1,12 +1,11 @@
-/***
-  *  Project: WOO Image Library
-  *
-  *  File: utilities.cpp
-  *  Created: Jun 25, 2012
-  *  Modified: Sun 25 Aug 2013 09:24:14 AM PDT
-  *
-  *  Author: Abhinav Sarje <asarje@lbl.gov>
-  */
+/**
+ *  Project: The Stock Libraries
+ *
+ *  File: utilities.cpp
+ *  Created: Jun 25, 2012
+ *
+ *  Author: Abhinav Sarje <abhinav.sarje@gmail.com>
+ */
 
 #include <iostream>
 #include <cmath>
@@ -14,7 +13,7 @@
 
 #include "utilities.hpp"
 
-namespace wil {
+namespace stock {
 
 
 	/**
@@ -439,4 +438,4 @@ namespace wil {
 		} // if-else
 	} // integral_xe()
 
-} // namespace wil
+} // namespace stock

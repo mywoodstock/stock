@@ -1,11 +1,11 @@
-/***
-  *  Project:
-  *
-  *  File: multi_node_comm.hpp
-  *  Created: Mar 18, 2013
-  *
-  *  Author: Abhinav Sarje <asarje@lbl.gov>
-  */
+/**
+ *  Project: The Stock Libraries
+ *
+ *  File: multi_node_comm.hpp
+ *  Created: Mar 18, 2013
+ *
+ *  Author: Abhinav Sarje <abhinav.sarje@gmail.com>
+ */
 
 #ifndef __MULTI_NODE_COMM_HPP__
 #define __MULTI_NODE_COMM_HPP__
@@ -20,7 +20,7 @@
 #include <string>
 #include <iostream>
 
-namespace woo {
+namespace stock {
 
 	static const int MASTER_RANK = 0;
 
@@ -655,15 +655,15 @@ namespace woo {
 
 	}; // class MultiNode
 
-} // namespace woo
+} // namespace stock
 
 #else
 
-namespace woo {
+namespace stock {
 
 	typedef std::string comm_t;
 
-} // namespace woo
+} // namespace stock 
 
 #endif // USE_MPI
 

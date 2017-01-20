@@ -1,12 +1,11 @@
-/***
-  *  Project: WOO Image Library
-  *
-  *  File: image.cpp
-  *  Created: Jun 18, 2012
-  *  Modified: Sun 25 Aug 2013 09:24:10 AM PDT
-  *
-  *  Author: Abhinav Sarje <asarje@lbl.gov>
-  */
+/**
+ *  Project: The Stock Libraries
+ *
+ *  File: image.cpp
+ *  Created: Jun 18, 2012
+ *
+ *  Author: Abhinav Sarje <abhinav.sarje@gmail.com>
+ */
 
 #include <boost/math/special_functions/round.hpp>
 #include <boost/math/special_functions/fpclassify.hpp>
@@ -17,7 +16,7 @@
 #include "image.hpp"
 #include "utilities.hpp"
 
-namespace wil {
+namespace stock {
 
 	Image::Image(unsigned int ny, unsigned int nz):
 					nx_(1), ny_(ny), nz_(nz), color_map_8_() {
@@ -398,4 +397,4 @@ namespace wil {
 		return true;
 	} // Image::resample_pixels()
 
-} // namespace wil
+} // namespace stock

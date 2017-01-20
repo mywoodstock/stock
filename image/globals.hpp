@@ -1,12 +1,11 @@
-/***
-  *  Project: WOO Image Library
-  *
-  *  File: globals.hpp
-  *  Created: Jun 05, 2012
-  *  Modified: Sun 25 Aug 2013 09:24:09 AM PDT
-  *
-  *  Author: Abhinav Sarje <asarje@lbl.gov>
-  */
+/**
+ *  Project: The Stock Libraries
+ *
+ *  File: globals.hpp
+ *  Created: Jun 05, 2012
+ *
+ *  Author: Abhinav Sarje <abhinav.sarje@gmail.com>
+ */
 
 #ifndef _GLOBALS_HPP_
 #define _GLOBALS_HPP_
@@ -18,7 +17,7 @@
 #include "typedefs.hpp"
 
 
-namespace wil {
+namespace stock {
 
 	typedef struct vector2_t {
 		boost::array <real_t, 2> vec_;
@@ -187,6 +186,6 @@ namespace wil {
 
 	} matrix3x3_t;
 
-} // namespace hig
+} // namespace stock
 
 #endif /* _GLOBALS_HPP_ */

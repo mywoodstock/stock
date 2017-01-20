@@ -1,12 +1,11 @@
-/***
-  *  Project: WOO Image Library
-  *
-  *  File: utilities.hpp
-  *  Created: Jun 25, 2012
-  *  Modified: Sun 25 Aug 2013 09:24:16 AM PDT
-  *
-  *  Author: Abhinav Sarje <asarje@lbl.gov>
-  */
+/**
+ *  Project: The Stock Libraries
+ *
+ *  File: utilities.hpp
+ *  Created: Jun 25, 2012
+ *
+ *  Author: Abhinav Sarje <abhinav.sarje@gmail.com>
+ */
 
 #ifndef _UTILITIES_HPP_
 #define _UTILITIES_HPP_
@@ -15,7 +14,7 @@
 #include "globals.hpp"
 #include "typedefs.hpp"
 
-namespace wil {
+namespace stock {
 
 	/**
 	 * various min and max functions
@@ -175,6 +174,6 @@ namespace wil {
 	extern complex_t integral_e(real_t, real_t, complex_t);
 	extern complex_t integral_xe(real_t, real_t, real_t, real_t, complex_t);
 
-} // namespace wil
+} // namespace stock
 
 #endif /* _UTILITIES_HPP_ */

@@ -1,12 +1,11 @@
-/***
-  *  Project: WOO Image Library
-  *
-  *  File: image.hpp
-  *  Created: Jun 18, 2012
-  *  Modified: Sun 25 Aug 2013 09:24:12 AM PDT
-  *
-  *  Author: Abhinav Sarje <asarje@lbl.gov>
-  */
+/**
+ *  Project: The Stock Libraries
+ *
+ *  File: image.hpp
+ *  Created: Jun 18, 2012
+ *
+ *  Author: Abhinav Sarje <abhinav.sarje@gmail.com>
+ */
 
 #ifndef _IMAGE_HPP_
 #define _IMAGE_HPP_
@@ -18,7 +17,7 @@
 #include "colormap.hpp"
 #include "typedefs.hpp"
 
-namespace wil {
+namespace stock {
 
 	/**
 	 * The main image class
@@ -70,6 +69,6 @@ namespace wil {
 	bool scale_image(int, int, int, int, real_t*, real_t*&);
 	bool resample_pixels(int, int, real_t*, int, int, real_t*&, const boost::gil::matrix3x2<real_t>&);
 
-} // namespace wil
+} // namespace stock
 
 #endif /* _IMAGE_HPP_ */
