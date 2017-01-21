@@ -1,11 +1,12 @@
 /**
- *  Project: WOO Timer Library
+ *  Project: The Stock Libraries
  *
  *  File: woo_cudatimers.hpp
  *  Created: Nov 21, 2012
  *
- *  Author: Abhinav Sarje <asarje@lbl.gov>
- *  Copyright (c) 2012-2013 Abhinav Sarje
+ *  Author: Abhinav Sarje <abhinav.sarje@gmail.com>
+ *
+ *  Copyright (c) 2012-2017 Abhinav Sarje
  *  Distributed under the Boost Software License.
  *  See accompanying LICENSE file.
  */
@@ -15,7 +16,7 @@
 #ifndef _WOOCUDATIMERS_HPP_
 #define _WOOCUDATIMERS_HPP_
 
-namespace woo {
+namespace stock {
 
 class CUDATimer : public WooTimer {	// this does not use the start_ and stop_ of base class!!!
 	// use CUDA timers
@@ -104,7 +105,7 @@ class CUDATimer : public WooTimer {	// this does not use the start_ and stop_ of
 
 }; // class WooCudaTimer
 
-} // namespace woo
+} // namespace stock
 
 
 #endif // _WOOCUDATIMERS_HPP_

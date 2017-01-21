@@ -1,14 +1,11 @@
-/***
-  *  $Id$
-  *
-  *  Project:
-  *
-  *  File: woo_boosttimers.hpp
-  *  Created: Nov 21, 2012
-  *  Modified: Thu 22 Nov 2012 12:45:35 PM PST
-  *
-  *  Author: Abhinav Sarje <asarje@lbl.gov>
-  */
+/**
+ *  Project: The Stock Libraries
+ *
+ *  File: woo_boosttimers.hpp
+ *  Created: Nov 21, 2012
+ *
+ *  Author: Abhinav Sarje <abhinav.sarje@gmail.com>
+ */
 
 #include "wootimers.hpp"
 #include <boost/timer/timer.hpp>
@@ -16,7 +13,7 @@
 #ifndef _WOOBOOSTTIMERS_HPP_
 #define _WOOBOOSTTIMERS_HPP_
 
-namespace woo {
+namespace stock {
 
 class BoostTimer : public WooTimer {
 	// use Boost's chrono
@@ -71,7 +68,7 @@ class BoostTimer : public WooTimer {
 
 }; // class BoostTimer
 
-} // namespace woo
+} // namespace stock
 
 
 #endif // _WOOBOOSTTIMERS_HPP_

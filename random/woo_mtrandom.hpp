@@ -1,12 +1,11 @@
-/***
-  *  Project: WOO Random Number Generator Library
-  *
-  *  File: woo_mtrandom.hpp
-  *  Created: Aug 25, 2013
-  *  Modified: Sun 25 Aug 2013 01:55:38 PM PDT
-  *
-  *  Author: Abhinav Sarje <asarje@lbl.gov>
-  */
+/**
+ *  Project: The Stock Libraries
+ *
+ *  File: woo_mtrandom.hpp
+ *  Created: Aug 25, 2013
+ *
+ *  Author: Abhinav Sarje <abhinav.sarje@gmail.com>
+ */
 
 #ifndef __WOO_RANDOM_MT_HPP__
 #define __WOO_RANDOM_MT_HPP__
@@ -14,7 +13,7 @@
 #include "woorandomnumbers.hpp"
 #include <random>
 
-namespace woo {
+namespace stock {
 
   enum MTRandomDistribution {
     mt_uniform_dist,    /* uniform distribution */
@@ -202,6 +201,6 @@ namespace woo {
       double rand_last() { return last_; }
   }; // class WooCauchyRandomNumberGenerator
 
-} // namespace woo
+} // namespace stock
 
 #endif // __WOO_RANDOM_MT_HPP__

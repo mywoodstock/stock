@@ -1,12 +1,11 @@
-/***
-  *  Project: WOO Timer Library
-  *
-  *  File: woo_mpitimers.hpp
-  *  Created: Nov 21, 2012
-  *  Modified: Tue 18 Feb 2014 10:54:41 AM PST
-  *
-  *  Author: Abhinav Sarje <asarje@lbl.gov>
-  */
+/**
+ *  Project: The Stock Libraries
+ *
+ *  File: woo_mpitimers.hpp
+ *  Created: Nov 21, 2012
+ *
+ *  Author: Abhinav Sarje <abhinav.sarje@gmail.com>
+ */
 
 #include "wootimers.hpp"
 #include <mpi.h>
@@ -14,7 +13,7 @@
 #ifndef _WOOMPITIMERS_HPP_
 #define _WOOMPITIMERS_HPP_
 
-namespace woo {
+namespace stock {
 
 class MPITimer : public WooTimer {
 	// use MPI_Wtime
@@ -89,7 +88,7 @@ class MPITimer : public WooTimer {
 		double elapsed_nsec() { return elapsed_ * 1e9; }
 }; // class MPITimer
 
-} // namespace woo
+} // namespace stock
 
 
 #endif // _WOOMPITIMERS_HPP_

@@ -1,14 +1,11 @@
-/***
-  *  $Id$
-  *
-  *  Project:
-  *
-  *  File: woo_gtodtimers.hpp
-  *  Created: Nov 21, 2012
-  *  Modified: Sun 31 Mar 2013 03:48:36 PM PDT
-  *
-  *  Author: Abhinav Sarje <asarje@lbl.gov>
-  */
+/**
+ *  Project: The Stock Libraries
+ *
+ *  File: woo_gtodtimers.hpp
+ *  Created: Nov 21, 2012
+ *
+ *  Author: Abhinav Sarje <abhinav.sarje@gmail.com>
+ */
 
 #include "wootimers.hpp"
 #include <sys/time.h>
@@ -16,7 +13,7 @@
 #ifndef _WOOGTODTIMERS_HPP_
 #define _WOOGTODTIMERS_HPP_
 
-namespace woo {
+namespace stock {
 
 class GTODTimer : public WooTimer {
 	// use system gettimeofday
@@ -69,7 +66,7 @@ class GTODTimer : public WooTimer {
 		double elapsed_nsec() { return elapsed_ * 1e3; }
 }; // class WooGTODTimer
 
-} // namespace woo
+} // namespace stock
 
 
 #endif // _WOOGTODTIMERS_HPP_

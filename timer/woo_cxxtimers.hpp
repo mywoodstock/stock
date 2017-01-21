@@ -1,14 +1,11 @@
-/***
-  *  $Id$
-  *
-  *  Project:
-  *
-  *  File: woo_cxxtimers.hpp
-  *  Created: Nov 21, 2012
-  *  Modified: Sun 31 Mar 2013 02:04:12 PM PDT
-  *
-  *  Author: Abhinav Sarje <asarje@lbl.gov>
-  */
+/**
+ *  Project:
+ *
+ *  File: woo_cxxtimers.hpp
+ *  Created: Nov 21, 2012
+ *
+ *  Author: Abhinav Sarje <abhinav.sarje@gmail.com>
+ */
 
 #include "wootimers.hpp"
 #include <ctime>
@@ -16,7 +13,7 @@
 #ifndef _WOOCXXTIMERS_HPP_
 #define _WOOCXXTIMERS_HPP_
 
-namespace woo {
+namespace stock {
 
 class CXXTimer : public WooTimer {
 	// use c++ ctime: time(), clock() etc.
@@ -68,7 +65,7 @@ class CXXTimer : public WooTimer {
 		double elapsed_nsec() { return elapsed_ * 1e9; }
 }; // class WooCppTimer
 
-} // namespace woo
+} // namespace stock
 
 
 #endif // _WOOCXXTIMERS_HPP_

@@ -1,17 +1,16 @@
 /**
- *  Project: WOO Random Number Generator Library
+ *  Project: The Stock Libraries
  *
  *  File: woorandomnumbers.hpp
  *  Created: Aug 25, 2013
- *  Modified: Sun 25 Aug 2013 01:53:52 PM PDT
  *
- *  Author: Abhinav Sarje <asarje@lbl.gov>
+ *  Author: Abhinav Sarje <abhinav.sarje@gmail.com>
  */
 
 #ifndef __WOO_RANDOM_NUMBERS__
 #define __WOO_RANDOM_NUMBERS__
 
-namespace woo {
+namespace stock {
 
 	class WooRandomNumberGenerator {	// an abstract class
 		protected:
@@ -33,6 +32,6 @@ namespace woo {
 			virtual double rand_last() = 0;			// returns the last generated random number
 	}; // class WooRandomNumberGenerator
 
-} // namespace woo
+} // namespace stock
 
 #endif // __WOO_RANDOM_NUMBERS__

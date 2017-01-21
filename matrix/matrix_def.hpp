@@ -1,12 +1,12 @@
 /**
- *  Project: WOO Matrix Library
+ *  Project: The Stock Libraries
  *
  *  File: matrix_def.hpp
  *  Created: Dec 03, 2012
- *  Modified: Wed 17 Jul 2013 10:28:03 AM PDT
  *
- *  Author: Abhinav Sarje <asarje@lbl.gov>
- *  Copyright (c) 2012-2013 Abhinav Sarje
+ *  Author: Abhinav Sarje <abhinav.sarje@gmail.com>
+ *
+ *  Copyright (c) 2012-2017 Abhinav Sarje
  *  Distributed under the Boost Software License.
  *  See accompanying LICENSE file.
  */
@@ -18,7 +18,7 @@
 #ifndef _MATRIX_DEF_HPP_
 #define _MATRIX_DEF_HPP_
 
-namespace woo {
+namespace stock {
 
 	template <typename value_type> class ColumnIterator;
 	template <typename value_type> class RowIterator;
@@ -601,6 +601,6 @@ namespace woo {
 		return true;
 	} // matrix_min_max()
 
-} // namespace woo
+} // namespace stock
 
 #endif // _MATRIX_DEF_HPP_

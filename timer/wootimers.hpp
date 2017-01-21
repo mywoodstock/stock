@@ -1,17 +1,16 @@
-/***
-  *  Project: WOO Timer Library
-  *
-  *  File: wootimers.hpp
-  *  Created: Nov 21, 2012
-  *  Modified: Tue 18 Feb 2014 10:48:03 AM PST
-  *
-  *  Author: Abhinav Sarje <asarje@lbl.gov>
-  */
+/**
+ *  Project: The Stock Libraries
+ *
+ *  File: wootimers.hpp
+ *  Created: Nov 21, 2012
+ *
+ *  Author: Abhinav Sarje <abhinav.sarje@gmail.com>
+ */
 
 #ifndef _WOOTIMERS_HPP_
 #define _WOOTIMERS_HPP_
 
-namespace woo {
+namespace stock {
 
 class WooTimer {		// an abstract class
 	protected:
@@ -38,7 +37,7 @@ class WooTimer {		// an abstract class
 		virtual double elapsed_nsec() = 0;	// in nanoseconds	10^9
 }; // class WooTimer
 
-} // namespace woo
+} // namespace stock
 
 
 #endif // _WOOTIMERS_HPP_

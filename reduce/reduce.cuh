@@ -1,16 +1,15 @@
-/***
-  *  Project: WOO Libraries
-  *
-  *  File: reduce.cuh
-  *  Created: Feb 12, 2013
-  *  Modified: Fri 11 Oct 2013 08:42:27 AM PDT
-  *
-  *  Author: Abhinav Sarje <asarje@lbl.gov>
-  */
+/**
+ *  Project: The Stock Libraries
+ *
+ *  File: reduce.cuh
+ *  Created: Feb 12, 2013
+ *
+ *  Author: Abhinav Sarje <abhinav.sarje@gmail.com>
+ */
 
 #include <nvToolsExt.h>
 
-namespace woo {
+namespace stock {
 namespace cuda {
 
 	const unsigned int MAX_CUDA_THREADS_		= 1024;
@@ -516,4 +515,4 @@ namespace cuda {
 
 
 } // namespace cuda
-} // namespace woo
+} // namespace stock
