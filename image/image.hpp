@@ -5,10 +5,14 @@
  *  Created: Jun 18, 2012
  *
  *  Author: Abhinav Sarje <abhinav.sarje@gmail.com>
+ *
+ *  Copyright (c) 2012-2017 Abhinav Sarje
+ *  Distributed under the Boost Software License.
+ *  See accompanying LICENSE file.
  */
 
-#ifndef _IMAGE_HPP_
-#define _IMAGE_HPP_
+#ifndef __IMAGE_HPP__
+#define __IMAGE_HPP__
 
 #include <boost/gil/gil_all.hpp>
 #include <boost/gil/extension/numeric/affine.hpp>
@@ -71,4 +75,4 @@ namespace stock {
 
 } // namespace stock
 
-#endif /* _IMAGE_HPP_ */
+#endif /* __IMAGE_HPP__ */

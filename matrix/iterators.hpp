@@ -13,8 +13,8 @@
 
 #include "matrix_def.hpp"
 
-#ifndef _ITERATORS_HPP_
-#define _ITERATORS_HPP_
+#ifndef __ITERATORS_HPP__
+#define __ITERATORS_HPP__
 
 namespace stock {
 
@@ -228,4 +228,4 @@ namespace stock {
 
 } // namespace stock
 
-#endif // _ITERATORS_HPP_
+#endif // __ITERATORS_HPP__

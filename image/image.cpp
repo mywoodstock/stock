@@ -5,6 +5,10 @@
  *  Created: Jun 18, 2012
  *
  *  Author: Abhinav Sarje <abhinav.sarje@gmail.com>
+ *
+ *  Copyright (c) 2012-2017 Abhinav Sarje
+ *  Distributed under the Boost Software License.
+ *  See accompanying LICENSE file.
  */
 
 #include <boost/math/special_functions/round.hpp>

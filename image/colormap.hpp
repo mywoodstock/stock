@@ -5,10 +5,14 @@
  *  Created: Jul 02, 2012
  *
  *  Author: Abhinav Sarje <abhinav.sarje@gmail.com>
+ *
+ *  Copyright (c) 2012-2017 Abhinav Sarje
+ *  Distributed under the Boost Software License.
+ *  See accompanying LICENSE file.
  */
 
-#ifndef _COLORMAP_HPP_
-#define _COLORMAP_HPP_
+#ifndef __COLORMAP_HPP__
+#define __COLORMAP_HPP__
 
 #include <cmath>
 #include <boost/array.hpp>
@@ -447,4 +451,4 @@ namespace stock {
 
 } // namespace stock
 	
-#endif /* _COLORMAP_HPP_ */
+#endif /* __COLORMAP_HPP__ */

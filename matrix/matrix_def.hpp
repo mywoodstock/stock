@@ -11,12 +11,8 @@
  *  See accompanying LICENSE file.
  */
 
-//#include <vector>
-//#include <cstring>
-//#include <iostream>
-
-#ifndef _MATRIX_DEF_HPP_
-#define _MATRIX_DEF_HPP_
+#ifndef __MATRIX_DEF_HPP__
+#define __MATRIX_DEF_HPP__
 
 namespace stock {
 
@@ -603,4 +599,4 @@ namespace stock {
 
 } // namespace stock
 
-#endif // _MATRIX_DEF_HPP_
+#endif // __MATRIX_DEF_HPP__

@@ -5,12 +5,16 @@
  *  Created: Nov 21, 2012
  *
  *  Author: Abhinav Sarje <abhinav.sarje@gmail.com>
+ *
+ *  Copyright (c) 2012-2017 Abhinav Sarje
+ *  Distributed under the Boost Software License.
+ *  See accompanying LICENSE file.
  */
 
 #include "timers.hpp"
 
-#ifndef _CXX11TIMERS_HPP_
-#define _CXX11TIMERS_HPP_
+#ifndef __CXX11TIMERS_HPP__
+#define __CXX11TIMERS_HPP__
 
 namespace stock {
 
@@ -21,4 +25,4 @@ class CXX11Timer : public Timer {
 } // namespace stock
 
 
-#endif // _CXX11TIMERS_HPP_
+#endif // __CXX11TIMERS_HPP__

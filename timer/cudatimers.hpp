@@ -13,8 +13,8 @@
 
 #include "timers.hpp"
 
-#ifndef _CUDATIMERS_HPP_
-#define _CUDATIMERS_HPP_
+#ifndef __CUDATIMERS_HPP__
+#define __CUDATIMERS_HPP__
 
 namespace stock {
 
@@ -108,4 +108,4 @@ class CUDATimer : public Timer {	// this does not use the start_ and stop_ of ba
 } // namespace stock
 
 
-#endif // _CUDATIMERS_HPP_
+#endif // __CUDATIMERS_HPP__

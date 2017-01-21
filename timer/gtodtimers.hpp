@@ -5,13 +5,17 @@
  *  Created: Nov 21, 2012
  *
  *  Author: Abhinav Sarje <abhinav.sarje@gmail.com>
+ *
+ *  Copyright (c) 2012-2017 Abhinav Sarje
+ *  Distributed under the Boost Software License.
+ *  See accompanying LICENSE file.
  */
 
 #include "timers.hpp"
 #include <sys/time.h>
 
-#ifndef _GTODTIMERS_HPP_
-#define _GTODTIMERS_HPP_
+#ifndef __GTODTIMERS_HPP__
+#define __GTODTIMERS_HPP__
 
 namespace stock {
 
@@ -69,4 +73,4 @@ class GTODTimer : public Timer {
 } // namespace stock
 
 
-#endif // _GTODTIMERS_HPP_
+#endif // __GTODTIMERS_HPP__

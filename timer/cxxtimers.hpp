@@ -5,13 +5,17 @@
  *  Created: Nov 21, 2012
  *
  *  Author: Abhinav Sarje <abhinav.sarje@gmail.com>
+ *
+ *  Copyright (c) 2012-2017 Abhinav Sarje
+ *  Distributed under the Boost Software License.
+ *  See accompanying LICENSE file.
  */
 
 #include "timers.hpp"
 #include <ctime>
 
-#ifndef _CXXTIMERS_HPP_
-#define _CXXTIMERS_HPP_
+#ifndef __CXXTIMERS_HPP__
+#define __CXXTIMERS_HPP__
 
 namespace stock {
 
@@ -68,4 +72,4 @@ class CXXTimer : public Timer {
 } // namespace stock
 
 
-#endif // _CXXTIMERS_HPP_
+#endif // __CXXTIMERS_HPP__

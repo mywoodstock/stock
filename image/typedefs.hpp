@@ -5,10 +5,14 @@
  *  Created: Jul 08, 2012
  *
  *  Author: Abhinav Sarje <abhinav.sarje@gmail.com>
+ *
+ *  Copyright (c) 2012-2017 Abhinav Sarje
+ *  Distributed under the Boost Software License.
+ *  See accompanying LICENSE file.
  */
 
-#ifndef _TYPEDEFS_HPP_
-#define _TYPEDEFS_HPP_
+#ifndef __TYPEDEFS_HPP__
+#define __TYPEDEFS_HPP__
 
 #include <vector>
 #include <complex>
@@ -29,4 +33,4 @@ namespace stock {
 } // namespace stock
 
 
-#endif /* _TYPEDEFS_HPP_ */
+#endif /* __TYPEDEFS_HPP__ */

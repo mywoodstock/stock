@@ -5,6 +5,10 @@
  *  Created: Mar 18, 2013
  *
  *  Author: Abhinav Sarje <abhinav.sarje@gmail.com>
+ *
+ *  Copyright (c) 2012-2017 Abhinav Sarje
+ *  Distributed under the Boost Software License.
+ *  See accompanying LICENSE file.
  */
 
 #ifndef __MULTI_NODE_COMM_HPP__

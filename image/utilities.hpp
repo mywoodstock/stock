@@ -5,10 +5,14 @@
  *  Created: Jun 25, 2012
  *
  *  Author: Abhinav Sarje <abhinav.sarje@gmail.com>
+ *
+ *  Copyright (c) 2012-2017 Abhinav Sarje
+ *  Distributed under the Boost Software License.
+ *  See accompanying LICENSE file.
  */
 
-#ifndef _UTILITIES_HPP_
-#define _UTILITIES_HPP_
+#ifndef __UTILITIES_HPP__
+#define __UTILITIES_HPP__
 
 
 #include "globals.hpp"
@@ -176,4 +180,4 @@ namespace stock {
 
 } // namespace stock
 
-#endif /* _UTILITIES_HPP_ */
+#endif /* __UTILITIES_HPP__ */

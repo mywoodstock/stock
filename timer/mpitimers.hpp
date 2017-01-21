@@ -5,13 +5,17 @@
  *  Created: Nov 21, 2012
  *
  *  Author: Abhinav Sarje <abhinav.sarje@gmail.com>
+ *
+ *  Copyright (c) 2012-2017 Abhinav Sarje
+ *  Distributed under the Boost Software License.
+ *  See accompanying LICENSE file.
  */
 
 #include "timers.hpp"
 #include <mpi.h>
 
-#ifndef _MPITIMERS_HPP_
-#define _MPITIMERS_HPP_
+#ifndef __MPITIMERS_HPP__
+#define __MPITIMERS_HPP__
 
 namespace stock {
 
@@ -91,4 +95,4 @@ class MPITimer : public Timer {
 } // namespace stock
 
 
-#endif // _MPITIMERS_HPP_
+#endif // __MPITIMERS_HPP__

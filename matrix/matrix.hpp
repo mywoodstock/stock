@@ -15,10 +15,10 @@
 #include <cstring>
 #include <iostream>
 
-#ifndef _MATRIX_HPP_
-#define _MATRIX_HPP_
+#ifndef __MATRIX_HPP__
+#define __MATRIX_HPP__
 
 #include "matrix_def.hpp"
 #include "iterators.hpp"
 
-#endif // _MATRIX_HPP_
+#endif // __MATRIX_HPP__

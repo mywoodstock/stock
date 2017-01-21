@@ -5,10 +5,14 @@
  *  Created: Jun 05, 2012
  *
  *  Author: Abhinav Sarje <abhinav.sarje@gmail.com>
+ *
+ *  Copyright (c) 2012-2017 Abhinav Sarje
+ *  Distributed under the Boost Software License.
+ *  See accompanying LICENSE file.
  */
 
-#ifndef _GLOBALS_HPP_
-#define _GLOBALS_HPP_
+#ifndef __GLOBALS_HPP__
+#define __GLOBALS_HPP__
 
 #include <boost/array.hpp>
 #include <vector>
@@ -188,4 +192,4 @@ namespace stock {
 
 } // namespace stock
 
-#endif /* _GLOBALS_HPP_ */
+#endif /* __GLOBALS_HPP__ */

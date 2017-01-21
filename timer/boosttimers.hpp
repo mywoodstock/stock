@@ -5,13 +5,17 @@
  *  Created: Nov 21, 2012
  *
  *  Author: Abhinav Sarje <abhinav.sarje@gmail.com>
+ *
+ *  Copyright (c) 2012-2017 Abhinav Sarje
+ *  Distributed under the Boost Software License.
+ *  See accompanying LICENSE file.
  */
 
 #include "timers.hpp"
 #include <boost/timer/timer.hpp>
 
-#ifndef _BOOSTTIMERS_HPP_
-#define _BOOSTTIMERS_HPP_
+#ifndef __BOOSTTIMERS_HPP__
+#define __BOOSTTIMERS_HPP__
 
 namespace stock {
 
@@ -71,4 +75,4 @@ class BoostTimer : public Timer {
 } // namespace stock
 
 
-#endif // _BOOSTTIMERS_HPP_
+#endif // __BOOSTTIMERS_HPP__
