@@ -1,7 +1,7 @@
 /**
  *  Project: The Stock Libraries
  *
- *  File: woo_bupctimers.h
+ *  File: bupctimers.h
  *  Created: Feb 23, 2014
  *
  *  Author: Abhinav Sarje <abhinav.sarje@gmail.com>

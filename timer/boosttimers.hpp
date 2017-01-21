@@ -1,21 +1,21 @@
 /**
  *  Project: The Stock Libraries
  *
- *  File: woo_boosttimers.hpp
+ *  File: boosttimers.hpp
  *  Created: Nov 21, 2012
  *
  *  Author: Abhinav Sarje <abhinav.sarje@gmail.com>
  */
 
-#include "wootimers.hpp"
+#include "timers.hpp"
 #include <boost/timer/timer.hpp>
 
-#ifndef _WOOBOOSTTIMERS_HPP_
-#define _WOOBOOSTTIMERS_HPP_
+#ifndef _BOOSTTIMERS_HPP_
+#define _BOOSTTIMERS_HPP_
 
 namespace stock {
 
-class BoostTimer : public WooTimer {
+class BoostTimer : public Timer {
 	// use Boost's chrono
 	// lowest resolution is nsec!!! not really!!
 	private:
@@ -71,4 +71,4 @@ class BoostTimer : public WooTimer {
 } // namespace stock
 
 
-#endif // _WOOBOOSTTIMERS_HPP_
+#endif // _BOOSTTIMERS_HPP_

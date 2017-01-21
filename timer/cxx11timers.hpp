@@ -1,24 +1,24 @@
 /**
  *  Project: The Stock Libraries
  *
- *  File: woo_cxx11timers.hpp
+ *  File: cxx11timers.hpp
  *  Created: Nov 21, 2012
  *
  *  Author: Abhinav Sarje <abhinav.sarje@gmail.com>
  */
 
-#include "wootimers.hpp"
+#include "timers.hpp"
 
-#ifndef _WOOCXX11TIMERS_HPP_
-#define _WOOCXX11TIMERS_HPP_
+#ifndef _CXX11TIMERS_HPP_
+#define _CXX11TIMERS_HPP_
 
 namespace stock {
 
 class CXX11Timer : public Timer {
 	// use c++11 standard's chrono
-}; // class WooCppTimer
+}; // class CppTimer
 
 } // namespace stock
 
 
-#endif // _WOOCXX11TIMERS_HPP_
+#endif // _CXX11TIMERS_HPP_

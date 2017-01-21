@@ -1,21 +1,21 @@
 /**
  *  Project: The Stock Libraries
  *
- *  File: woo_boostchronotimers.hpp
+ *  File: boostchronotimers.hpp
  *  Created: Nov 21, 2012
  *
  *  Author: Abhinav Sarje <abhinav.sarje@gmail.com>
  */
 
-#include "wootimers.hpp"
+#include "timers.hpp"
 #include <boost/chrono.hpp>
 
-#ifndef _WOOBOOSTCHRONOTIMERS_HPP_
-#define _WOOBOOSTCHRONOTIMERS_HPP_
+#ifndef _BOOSTCHRONOTIMERS_HPP_
+#define _BOOSTCHRONOTIMERS_HPP_
 
 namespace stock {
 
-class BoostChronoTimer : public WooTimer {
+class BoostChronoTimer : public Timer {
 	// use Boost's chrono
 	private:
 		boost::chrono::duration<long long, boost::nano> chstart_;
@@ -113,4 +113,4 @@ class BoostChronoTimer : public WooTimer {
 } // namespace stock
 
 
-#endif // _WOOBOOSTCHRONOTIMERS_HPP_
+#endif // _BOOSTCHRONOTIMERS_HPP_

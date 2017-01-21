@@ -1,21 +1,21 @@
 /**
  *  Project: The Stock Libraries
  *
- *  File: woo_mpitimers.hpp
+ *  File: mpitimers.hpp
  *  Created: Nov 21, 2012
  *
  *  Author: Abhinav Sarje <abhinav.sarje@gmail.com>
  */
 
-#include "wootimers.hpp"
+#include "timers.hpp"
 #include <mpi.h>
 
-#ifndef _WOOMPITIMERS_HPP_
-#define _WOOMPITIMERS_HPP_
+#ifndef _MPITIMERS_HPP_
+#define _MPITIMERS_HPP_
 
 namespace stock {
 
-class MPITimer : public WooTimer {
+class MPITimer : public Timer {
 	// use MPI_Wtime
 	// lowest resolution is sec
 	private:
@@ -91,4 +91,4 @@ class MPITimer : public WooTimer {
 } // namespace stock
 
 
-#endif // _WOOMPITIMERS_HPP_
+#endif // _MPITIMERS_HPP_

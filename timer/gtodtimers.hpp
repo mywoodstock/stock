@@ -1,21 +1,21 @@
 /**
  *  Project: The Stock Libraries
  *
- *  File: woo_gtodtimers.hpp
+ *  File: gtodtimers.hpp
  *  Created: Nov 21, 2012
  *
  *  Author: Abhinav Sarje <abhinav.sarje@gmail.com>
  */
 
-#include "wootimers.hpp"
+#include "timers.hpp"
 #include <sys/time.h>
 
-#ifndef _WOOGTODTIMERS_HPP_
-#define _WOOGTODTIMERS_HPP_
+#ifndef _GTODTIMERS_HPP_
+#define _GTODTIMERS_HPP_
 
 namespace stock {
 
-class GTODTimer : public WooTimer {
+class GTODTimer : public Timer {
 	// use system gettimeofday
 	// lowest resolution is 1 microsecond (supposed to be)
 	private:
@@ -64,9 +64,9 @@ class GTODTimer : public WooTimer {
 		double elapsed_msec() { return elapsed_ / 1e3; }
 		double elapsed_usec() { return elapsed_; }
 		double elapsed_nsec() { return elapsed_ * 1e3; }
-}; // class WooGTODTimer
+}; // class GTODTimer
 
 } // namespace stock
 
 
-#endif // _WOOGTODTIMERS_HPP_
+#endif // _GTODTIMERS_HPP_

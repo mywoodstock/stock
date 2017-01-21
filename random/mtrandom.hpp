@@ -1,16 +1,16 @@
 /**
  *  Project: The Stock Libraries
  *
- *  File: woo_mtrandom.hpp
+ *  File: mtrandom.hpp
  *  Created: Aug 25, 2013
  *
  *  Author: Abhinav Sarje <abhinav.sarje@gmail.com>
  */
 
-#ifndef __WOO_RANDOM_MT_HPP__
-#define __WOO_RANDOM_MT_HPP__
+#ifndef __RANDOM_MT_HPP__
+#define __RANDOM_MT_HPP__
 
-#include "woorandomnumbers.hpp"
+#include "randomnumbers.hpp"
 #include <random>
 
 namespace stock {
@@ -22,7 +22,7 @@ namespace stock {
   };
 
   // C++ std Mersenne-Twister random number generator
-  class MTRandomNumberGenerator : public WooRandomNumberGenerator {
+  class MTRandomNumberGenerator : public RandomNumberGenerator {
     private:
       // random number generator
       std::mt19937_64 mt_rand_gen_;
@@ -72,10 +72,10 @@ namespace stock {
       } // rand()
 
       double rand_last() { return last_; }
-  }; // class WooRandomNumberGenerator
+  }; // class RandomNumberGenerator
 
   // C++ std Mersenne-Twister random number generator with normal distribution
-  class MTNormalRandomNumberGenerator : public WooRandomNumberGenerator {
+  class MTNormalRandomNumberGenerator : public RandomNumberGenerator {
     private:
       // random number generator
       std::mt19937_64 mt_rand_gen_;
@@ -134,10 +134,10 @@ namespace stock {
       } // rand()
 
       double rand_last() { return last_; }
-  }; // class WooNormalRandomNumberGenerator
+  }; // class NormalRandomNumberGenerator
 
   // MT random number generator with Cauchy distribution
-  class MTCauchyRandomNumberGenerator : public WooRandomNumberGenerator {
+  class MTCauchyRandomNumberGenerator : public RandomNumberGenerator {
     private:
       // random number generator
       std::mt19937_64 mt_rand_gen_;
@@ -199,8 +199,8 @@ namespace stock {
       } // rand()
 
       double rand_last() { return last_; }
-  }; // class WooCauchyRandomNumberGenerator
+  }; // class CauchyRandomNumberGenerator
 
 } // namespace stock
 
-#endif // __WOO_RANDOM_MT_HPP__
+#endif // __RANDOM_MT_HPP__

@@ -1,7 +1,7 @@
 /**
  *  Project: The Stock Libraries
  *
- *  File: woo_cudatimers.hpp
+ *  File: cudatimers.hpp
  *  Created: Nov 21, 2012
  *
  *  Author: Abhinav Sarje <abhinav.sarje@gmail.com>
@@ -11,14 +11,14 @@
  *  See accompanying LICENSE file.
  */
 
-#include "wootimers.hpp"
+#include "timers.hpp"
 
-#ifndef _WOOCUDATIMERS_HPP_
-#define _WOOCUDATIMERS_HPP_
+#ifndef _CUDATIMERS_HPP_
+#define _CUDATIMERS_HPP_
 
 namespace stock {
 
-class CUDATimer : public WooTimer {	// this does not use the start_ and stop_ of base class!!!
+class CUDATimer : public Timer {	// this does not use the start_ and stop_ of base class!!!
 	// use CUDA timers
 	// lowest resolution is msec (check with the CUDA benchmarks ... )
 	private:
@@ -103,9 +103,9 @@ class CUDATimer : public WooTimer {	// this does not use the start_ and stop_ of
 			return elapsed_ * 1e6;
 		} // elapsed_nsec()
 
-}; // class WooCudaTimer
+}; // class CudaTimer
 
 } // namespace stock
 
 
-#endif // _WOOCUDATIMERS_HPP_
+#endif // _CUDATIMERS_HPP_

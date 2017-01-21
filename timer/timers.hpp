@@ -1,18 +1,18 @@
 /**
  *  Project: The Stock Libraries
  *
- *  File: wootimers.hpp
+ *  File: timers.hpp
  *  Created: Nov 21, 2012
  *
  *  Author: Abhinav Sarje <abhinav.sarje@gmail.com>
  */
 
-#ifndef _WOOTIMERS_HPP_
-#define _WOOTIMERS_HPP_
+#ifndef _TIMERS_HPP_
+#define _TIMERS_HPP_
 
 namespace stock {
 
-class WooTimer {		// an abstract class
+class Timer {		// an abstract class
 	protected:
 		double start_;
 		double stop_;
@@ -21,7 +21,7 @@ class WooTimer {		// an abstract class
 		bool is_paused_;
 
 	public:
-		virtual ~WooTimer() { }
+		virtual ~Timer() { }
 
 		virtual void reset() = 0;
 
@@ -35,9 +35,9 @@ class WooTimer {		// an abstract class
 		virtual double elapsed_msec() = 0;	// in miliseconds	10^3
 		virtual double elapsed_usec() = 0;	// in microseconds	10^6
 		virtual double elapsed_nsec() = 0;	// in nanoseconds	10^9
-}; // class WooTimer
+}; // class Timer
 
 } // namespace stock
 
 
-#endif // _WOOTIMERS_HPP_
+#endif // _TIMERS_HPP_

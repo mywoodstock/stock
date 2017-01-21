@@ -1,21 +1,21 @@
 /**
- *  Project:
+ *  Project: The Stock Libraries
  *
- *  File: woo_cxxtimers.hpp
+ *  File: cxxtimers.hpp
  *  Created: Nov 21, 2012
  *
  *  Author: Abhinav Sarje <abhinav.sarje@gmail.com>
  */
 
-#include "wootimers.hpp"
+#include "timers.hpp"
 #include <ctime>
 
-#ifndef _WOOCXXTIMERS_HPP_
-#define _WOOCXXTIMERS_HPP_
+#ifndef _CXXTIMERS_HPP_
+#define _CXXTIMERS_HPP_
 
 namespace stock {
 
-class CXXTimer : public WooTimer {
+class CXXTimer : public Timer {
 	// use c++ ctime: time(), clock() etc.
 	// lowest resolution is 1 CPU clock tick
 	private:
@@ -63,9 +63,9 @@ class CXXTimer : public WooTimer {
 		double elapsed_msec() { return elapsed_ * 1e3; }
 		double elapsed_usec() { return elapsed_ * 1e6; }
 		double elapsed_nsec() { return elapsed_ * 1e9; }
-}; // class WooCppTimer
+}; // class CppTimer
 
 } // namespace stock
 
 
-#endif // _WOOCXXTIMERS_HPP_
+#endif // _CXXTIMERS_HPP_
