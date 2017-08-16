@@ -7,11 +7,9 @@ Stock Libraries
 File:   README
 Author: Abhinav Sarje <abhinav.sarje@gmail.com>
 
-=============================================
-Copyright (c) 2012-2013 Abhinav Sarje.
+Copyright (c) 2012-2017 Abhinav Sarje.
 Distributed under the Boost Software License.
 See accompanying LICENSE file.
-=============================================
 
 Stock libraries currently consist of the following:
 
